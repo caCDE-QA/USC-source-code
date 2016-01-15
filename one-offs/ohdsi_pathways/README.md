@@ -1,7 +1,7 @@
 Code used with the OHDSI queries (the queries themselves are distributed as R code downloaded from the pSCANNER sharepoint).
 
-* **drug_era_postgres.sql** - drug era code ported from Chris Knoll's.
-* **postgres_v4_condition_era.sql** - condition era code ported from Taylor Delahanty's port of Chris Knoll's code.
+* **drug_era/drug_era_postgres.sql** - drug era code ported from Chris Knoll's.
+* **condition_era/postgres_v4_condition_era.sql** - condition era code ported from Taylor Delahanty's port of Chris Knoll's code.
 * **observation_period_hack.sql** - creates observation period entries based on each user's first and last visit dates.
 This is not an accurate reflection of what should be in the observation_period table, but since we don't have
 accurate data, we've been told to use this method for this study.
