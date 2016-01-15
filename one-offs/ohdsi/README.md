@@ -9,4 +9,5 @@ accurate data, we've been told to use this method for this study.
 fields from numeric to integer.
 
 Chris Knoll's drug era code: https://gist.github.com/chrisknoll/64da3ee06b271763d1be
+
 Taylor Delahanty's condition era code: https://gist.github.com/taylordelehanty/01fe9e92a322331a8b35
