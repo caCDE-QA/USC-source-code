@@ -1,0 +1,6 @@
+[submodule "one-offs/ohdsi/drug_era_postgres.sql"]
+	path = one-offs/ohdsi/drug_era_postgres.sql
+	url = https://gist.github.com/ljpearlman/0a2a68bcd7b15e64c31b
+[submodule "one-offs/ohdsi/postgres_v4_condition_era.sql"]
+	path = one-offs/ohdsi/postgres_v4_condition_era.sql
+	url = https://gist.github.com/ljpearlman/2e66e86a593f45fc4836
