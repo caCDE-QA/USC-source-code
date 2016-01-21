@@ -1,0 +1,12 @@
+<html>
+<head><title>Generate SQL from HQMF</title></head>
+<body>
+<form method="POST" action="/cgi-bin/convert.py" enctype="multipart/form-data">
+<p><label>Measure period (year): <input name="year" type="text" value="2013"></label></p>
+<p><label>Data schema: <input name="data_schema" type="text" value="hqmf_test"></label></p>
+<p><label>Result schema: <input name="result_schema"  type="text" value="results"></label></p>
+<p><label>File: <input type="file" name="hqmf"></label></p>
+<input type="submit">
+</form>
+</body>
+</html>
