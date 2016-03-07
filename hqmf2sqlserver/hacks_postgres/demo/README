@@ -1,0 +1,39 @@
+For Heracles integration demo using Cypress data:
+
+1. Create an OMOP v4 database:
+Create new database
+Load vocabulary 4.5 tables; use "vocabulary4" for the vocabulary schema name
+In ../omop_etl directory, edit the defaults.sql to use vocabulary4 and create vocabulary_plus4 and run 
+
+    ./create-vocab-and-value-sets.sh [dbname]
+
+2. Load the Cypress data and convert it to OMOP v4:
+    ./import-patient-source-files.sh ep [dbname]
+    ./to-sql.sh | psql [dbname]
+
+3. Create OMOP v5 vocabulary and data schemas.
+(one time): create a new OMOP database (make sure it's LATIN-9) and load vocabulary files (use
+the ddl in .../licensed/CommonDataModel-master get the vocabulary from
+Athena, and cd into the directory with the csv files. First run their thing
+to fix csv codes:
+ln -s CONCEPT.csv concept.csv
+ln -s CONCEPT_CPT4.csv concept_cpt4.csv
+java -jar cpt4.jar
+
+rm concept.csv
+
+grep -v '^42740582' CONCEPT.csv | sed -e 's/™//' > concept.csv
+
+Then run make_vocab_5.sql.
+
+ Rearrange the tables into data and vocabulary schemas, and create dumps of the
+two schemas. Load each of them into the real db.
+
+Now smush them together so the translation will work:
+psql -f merge_omop_schemas.sql db
+
+run v4_to_v5.sql. This is an edited version of the script from the OMOP github
+
+
+
+ bundle exec rake "simplexml:parse[tmp/in/CMS148v4_SimpleXML.xml]"
