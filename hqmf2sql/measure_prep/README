@@ -1,0 +1,11 @@
+Before running a measure (or set of measures), you'll need to create a schema for the results and create some
+date-related helper functions. The procedure is:
+
+In psql:
+# create schema results;
+
+Then, on the command line:
+
+psql -f create_date_funcs.sql mydb
+
+where mydb is your database. If you call the results schema something else, you'll need to edit create_date_funcs.sql.
