@@ -1,8 +1,7 @@
 \ir defaults.sql
 set search_path = :omop_schema;
 
-create index person_birthdate_idx on person(ydm_to_date(year_of_birth, month_of_birth, day_of_birth));
-cluster person using person_pk;
+cluster person using :person_primary_key_index;
 analyze person;
 
 create index visit_occurrence_person_id_visit_occurrence_id_idx on visit_occurrence(person_id, visit_occurrence_id);

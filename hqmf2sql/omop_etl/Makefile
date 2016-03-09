@@ -2,7 +2,7 @@ DISTDIR=dist/omop_hqmf_etl
 
 all:
 
-dist:
+dist: README *.sh *.sql
 	mkdir -p $(DISTDIR)/.
 	cp README *.sh *.sql $(DISTDIR)/.
 	cp -r raw $(DISTDIR)/.

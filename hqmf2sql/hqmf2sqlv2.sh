@@ -24,10 +24,12 @@ while getopts "djns:e:H:r:y:u" option; do
 	e)
 	    eopts="-e $OPTARG"
 	    ;;
+	r)
+	    ropts="-r $OPTARG"
+	    ;;
 	H)
 	    Hopts="-H $OPTARG"
 	    ;;
-
 	y)
 	    year=$OPTARG
 	    sopts="-s ${year}01010000"

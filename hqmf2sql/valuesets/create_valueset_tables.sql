@@ -89,3 +89,20 @@ select
    from :vocab_schema.concept
    where vocabulary_id = :snomed_vocabulary_id   
 ;
+
+create or replace function ydm_to_date(numeric(4,0), numeric(2,0), numeric(2,0)) returns date as $$
+DECLARE
+   i_year alias for $1;
+   i_month alias for $2;
+   i_day alias for $3;
+BEGIN
+   if ((i_year is null) or (i_month is null) or (i_day is null)) then
+      return null;
+   end if;
+   return cast (
+      (cast (i_year as char(4)) || '-' ||
+       cast (i_month as char(2)) || '-' ||
+       cast (i_day as char(2))) as date);
+END
+$$
+LANGUAGE 'plpgsql' immutable;

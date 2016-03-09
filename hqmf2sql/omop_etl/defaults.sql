@@ -12,7 +12,11 @@
 \set hqmfuser hqmfuser
 
 -- The name of the database (used in a "GRANT CREATE ON DATABASE :database TO :hqmfuser")
-\set database heracles
+\set database hqmf
+
+-- The name of the existing PERSON table primary key index, if any (leave this at "person_pk" if your
+-- PERSON table doesn't yet have a primary key)
+\set person_primary_key_index person_pk
 
 -- The name of the schema we will create to hold HQMF value set mappings
 \set valueset_schema valuesets
@@ -66,3 +70,7 @@
 \set hqmf_overflow_concept_level 1
 \set hqmf_overflow_concept_class '''hqmf mapped overflow concept'''
 \set omop_mapping_schema :valueset_schema
+\set loinc_vocabulary_id 6
+\set administrative_sex_vocabulary_id 12
+\set cvx_vocabulary_id 40127
+

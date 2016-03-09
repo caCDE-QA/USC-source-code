@@ -5,6 +5,8 @@ SECTION 1: PRELIMINARIES
 Step 0 (optional): The tune_omop.sql file creates some indexes and does some clustering that at one point
 seemed to make things go faster. If you want to, look it over and run some or all of it.
 
+Note: tune_omop.sql tries to cluster the person table using its primary key index. 
+
 Step 1: Edit the defaults.sql file to set values for variables (user names, schema names, etc.) that will
 be used in the rest of the sql scripts.
 
@@ -16,6 +18,22 @@ be used in the rest of the sql scripts.
 
 :database - the database where all this stuff lives
 
+:person_primary_key_index - the name of the existing primary key on your PERSON table. You can find it with something like:
+
+hqmf=# \d omop_test.person
+                  Table "omop_test.person"
+         Column         |         Type          | Modifiers 
+------------------------+-----------------------+-----------
+ person_id              | integer               | not null
+ gender_concept_id      | integer               | 
+   ...
+Indexes:
+    "person_pk" PRIMARY KEY, btree (person_id)
+
+If you don't have a primary key on your PERSON table, create one ("alter table person add primary key (person_id)").
+
+You probably want to leave the rest of the settings as they are, but here are two more of interest:
+
 :vocab_schema - the "vocabulary plus" schema. This contains additions
 to the OMOP vocabulary (e.g., :vocab_plus.concept_extras has concept
 codes for ICD-9 tables, and views that can be used as replacement for
@@ -24,6 +42,7 @@ vanilla OMOP concept table and the concept_extras table).
 
 :valueset_schema - the schema for HQMF value sets. This includes the table
 that maps value set IDs to OMOP concept IDs.
+
 
 Step 2: Create the HQMF user. This user will be able to read your OMOP
 data and create schemas in your database:
@@ -80,6 +99,7 @@ psql -f import_value_sets.sql -U hqmfuser mydb
 psql -f add_to_omop_vocabulary.sql -U hqmfuser mydb
 psql -f create_valueset_omop_mappings.sql -U hqmfuser mydb
 psql -f load_hl7_tables.sql -U hqmfuser mydb
+
 
 SECTION 3: ETL YOUR ACTUAL DATA
 
