@@ -191,8 +191,8 @@ CREATE VIEW vocabulary AS
     vocabulary_extras.vocabulary_name
    FROM vocabulary_extras
 UNION
- SELECT :omop_vocab_schema.vocabulary_id,
-    :omop_vocab_schema.vocabulary_name
+ SELECT vocabulary.vocabulary_id,
+    vocabulary.vocabulary_name
    FROM :omop_vocab_schema.vocabulary;
 
 
