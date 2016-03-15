@@ -14,7 +14,6 @@ create or replace view :omop_hqmf_additions_schema.visit_occurrence as
           place_of_service_concept_id,
           care_site_id,
           place_of_service_source_value,
-          provenance_id,
 -- Uncomment if you've extended OMOP with start/end timestamp fields
 --          visit_start_timestamp,
 --          coalesce(visit_end_timestamp, visit_start_timestamp) visit_end_timestamp
@@ -68,7 +67,6 @@ create table :omop_hqmf_additions_schema.condition_occurrence as
   o.associated_provider_id,
   o.visit_occurrence_id,
   o.condition_source_value,
-  o.provenance_id,
   o.condition_source_description,
 -- Uncomment if you have actual timestamps
 --  o.condition_start_timestamp,
@@ -104,7 +102,6 @@ create view observation_view as select
    relevant_condition_concept_id,
    observation_source_value,
    units_source_value,
-   provenance_id,
    (observation_date + observation_time) observation_timestamp,
    null::text status
    from observation
@@ -147,7 +144,6 @@ create table visit_condition_view as select
   c.stop_reason,
   c.associated_provider_id,
   c.condition_source_value,
-  c.provenance_id condition_provenance_id,
   c.condition_source_description,
   c.condition_start_timestamp,
   c.condition_end_timestamp
@@ -171,7 +167,6 @@ create table visit_procedure_view as select
   v.place_of_service_concept_id,
   v.care_site_id,
   v.place_of_service_source_value,
-  v.provenance_id,
   v.visit_start_timestamp,
   v.visit_end_timestamp,
   p.procedure_concept_id,
@@ -183,8 +178,7 @@ create table visit_procedure_view as select
   p.associated_provider_id,
   p.relevant_condition_concept_id,
   p.procedure_source_value,
-  p.procedure_occurrence_id,
-  p.provenance_id procedure_provenance_id
+  p.procedure_occurrence_id
 from procedure_occurrence p join visit_occurrence v on v.visit_occurrence_id = p.visit_occurrence_id;
 
 create index visit_procedure_visit_idx on visit_procedure_view(visit_occurrence_id);
