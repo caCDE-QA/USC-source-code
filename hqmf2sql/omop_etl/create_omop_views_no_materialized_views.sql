@@ -18,8 +18,8 @@ create or replace view :omop_hqmf_additions_schema.visit_occurrence as
 --          visit_start_timestamp,
 --          coalesce(visit_end_timestamp, visit_start_timestamp) visit_end_timestamp
 -- Otherwise, use these:
-          visit_start_date visit_start_timestamp,
-          coalesce(visit_end_date, visit_start_date) visit_end_timestamp
+          visit_start_date::timestamp visit_start_timestamp,
+          coalesce(visit_end_date::timestamp, visit_start_date::timestamp) visit_end_timestamp
    from :omop_schema.visit_occurrence
    where visit_end_date is null or visit_end_date >= visit_start_date;
 
@@ -67,13 +67,14 @@ create table :omop_hqmf_additions_schema.condition_occurrence as
   o.associated_provider_id,
   o.visit_occurrence_id,
   o.condition_source_value,
-  o.condition_source_description,
+-- Uncomment if you have a condition_source_description field
+--  o.condition_source_description,
 -- Uncomment if you have actual timestamps
 --  o.condition_start_timestamp,
 --  o.condition_end_timestamp
 -- Otherwise, use these:
-  o.condition_start_date condition_start_timestamp,
-  o.condition_end_date condition_end_timestamp
+  o.condition_start_date::timestamp as condition_start_timestamp,
+  o.condition_end_date::timestamp as condition_end_timestamp
   from :omop_schema.condition_occurrence o
   left join icd9_map m on m.concept_code = o.condition_source_value;
 
@@ -101,7 +102,8 @@ create view observation_view as select
    visit_occurrence_id,
    relevant_condition_concept_id,
    observation_source_value,
-   units_source_value,
+-- Uncomment if you have this field  
+--   units_source_value,
    (observation_date + observation_time) observation_timestamp,
    null::text status
    from observation
@@ -144,7 +146,8 @@ create table visit_condition_view as select
   c.stop_reason,
   c.associated_provider_id,
   c.condition_source_value,
-  c.condition_source_description,
+-- Uncomment if you have this field
+--  c.condition_source_description,
   c.condition_start_timestamp,
   c.condition_end_timestamp
 from visit_occurrence v join condition_occurrence c on v.visit_occurrence_id = c.visit_occurrence_id
@@ -173,7 +176,7 @@ create table visit_procedure_view as select
 -- Uncomment if you've extended OMOP with start/end timestamp fields
 --  p.procedure_timestamp,
 -- Otherwise, use this:
-  p.procedure_date procedure_timestamp,
+  p.procedure_date::timestamp procedure_timestamp,
   p.procedure_type_concept_id,
   p.associated_provider_id,
   p.relevant_condition_concept_id,
