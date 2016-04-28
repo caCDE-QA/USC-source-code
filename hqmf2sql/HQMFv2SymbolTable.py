@@ -4,12 +4,15 @@ from HQMFv2JSONParser import *
 from HQMFUtil import *
 from HQMFv2JSONLexer import HQMFv2JSONLexer
 from collections.abc import Mapping
+from collections import UserDict
 from HQMFv2Data import *
 import re
-from datetime import date, timedelta
+from datetime import date, timedelta, datetime
+from abc import abstractmethod
 
 LEXER=HQMFv2JSONLexer
 
+       
 def literal(token_number):
     return LEXER.literalNames[token_number]
 
@@ -153,47 +156,74 @@ def find_data_table(template_id):
 class MeasurePeriod (TemporalReferrant):
     def __init__(self):
         TemporalReferrant.__init__(self)
-        self.time_value = None
-        self.id = None
-        self.code = None
-        self.explicit_start_time = None
-        self.explicit_end_time = None
 
     def set_time_value(self, time_value):
-        self.time_value = time_value;
+        self.data['time_value'] = time_value;
 
     def set_id(self, id):
-        self.id = id;
+        self.data['id'] = id;
 
     def set_code(self, code):
-        self.code = code;
+        self.data['code'] = code;
 
     def get_start_time(self, outer=True):
-        if self.explicit_start_time != None:
-            return self.explicit_start_time
-        elif self.time_value == None:
+        if self.data.get('explicit_start_time') != None:
+            return self.data.get('explicit_start_time')
+        elif self.data.get('time_value') == None:
             return None
         else:
-            return self.time_value.get_start_time()
+            return self.data.get('time_value').get_start_time()
 
     def get_end_time(self, outer=True):
-        if self.explicit_end_time != None:
-            return self.explicit_end_time
-        elif self.time_value == None:
+        if self.data.get('explicit_end_time') != None:
+            return self.data.get('explicit_end_time')
+        elif self.get('time_value') == None:
             return None
         else:
             return self.time_value.get_end_time()
 
     def override_values(self, start_time, end_time):
-        self.explicit_start_time = start_time
-        self.explicit_end_time = end_time
+        self['explicit_start_time'] = start_time
+        self['explicit_end_time'] = end_time
 
-class ValueRhs:
+class BaseDictClass(UserDict):
     def __init__(self):
+        UserDict.__init__(self)
+
+    def serializable_version(self):
+        return self.data
+    
+    def set_name_value_pair(self, name, value):
+        self.data[name] = value
+
+    def get_dict_entry(self, key):
+        return self.data.get(token_name(key))
+
+    def get_nested_dict_entry(self, keys):
+        val = self
+        for key in keys:
+            val = val.get_dict_entry(key)
+            if val == None:
+                return None
+        return val
+
+class MyEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, BaseDictClass) or isinstance(o, TemporalReferrant):
+            return o.serializable_version()
+        if isinstance(o, datetime):
+            return str(o)
+        return json.JSONEncoder.default(self, o)
+
+    
+class ValueRhs(BaseDictClass):
+    def __init__(self):
+        BaseDictClass.__init__(self)
         self.value = None
 
     def set_value(self, value):
         self.value = value
+        self['value'] = self.value
 
     def get_raw_value(self):
         return self.value
@@ -259,18 +289,21 @@ class ValueRhs:
             return res
         return "(" + str(type(self.value)) + ")"
 
-class ValueSetRhs:
+class ValueSetRhs(BaseDictClass):
     def __init__(self):
+        BaseDictClass.__init__(self)
         self.value_set = None
         self.display_name = None
 
     def set_value_set(self, value_set):
         self.value_set = value_set
+        self['value_set'] = self.value_set
     def get_value_set(self):
         return self.value_set
 
     def set_display_name(self, display_name):
         self.display_name = display_name
+        self['display_name'] = self.display_name
     def get_display_name(self):
         if self.display_name == None:
             return None
@@ -278,24 +311,6 @@ class ValueSetRhs:
 
 class Placeholder:
     pass
-
-class BaseDictClass:
-    def __init__(self):
-        self.value_dict = dict()
-
-    def set_name_value_pair(self, name, value):
-        self.value_dict[name] = value
-
-    def get_dict_entry(self, key):
-        return self.value_dict.get(token_name(key))
-
-    def get_nested_dict_entry(self, keys):
-        val = self
-        for key in keys:
-            val = val.get_dict_entry(key)
-            if val == None:
-                return None
-        return val
 
 class Hxit(BaseDictClass):
     def __init__(self):
@@ -351,7 +366,11 @@ class ValueCodeRhs(BaseDictClass):
     def value_str(self):
         return self.get_code()
         
-class ValueAnyNonNullRhs:
+class ValueAnyNonNullRhs(BaseDictClass):
+    def __init__(self):
+        BaseDictClass.__init__(self)
+        self['any_non_null'] = True
+    
     def get_display_name(self):
         return("Any non-null")
 
@@ -609,10 +628,11 @@ class DataCriterion(InfrastructureRoot):
         self.variable_name = None
 
     def is_negation(self):
-        return self.value_dict.get(token_name(LEXER.A_actionNegationInd)) == True
+        return self.data.get(token_name(LEXER.A_actionNegationInd)) == True
     
     def set_code_list(self, code_list):
         self.code_list = code_list
+        self.__setitem__('code_list', self.code_list)
         
     def get_raw_code_list(self):
         return self.code_list
@@ -625,6 +645,7 @@ class DataCriterion(InfrastructureRoot):
     
     def set_effective_value(self, val):
         self.effective_value = val
+        self.__setitem__('effective_value', self.effective_value)        
         
     def get_effective_value(self):
         return self.effective_value
@@ -634,12 +655,14 @@ class DataCriterion(InfrastructureRoot):
     
     def set_specific_occurrence_target_indicator(self):
         self.specific_occurrence_target_indicator = True
+        self.__setitem__('specific_occurrence_target_indicator', self.specific_occurrence_target_indicator)
         
     def is_specific_occurrence(self):
         return self.specific_occurrence != None    
         
     def set_field_value(self, field_value):
         self.field_value = field_value
+        self.__setitem__('field_value', self.field_value)
         
     def get_raw_field_value(self):
         return self.field_value
@@ -649,6 +672,7 @@ class DataCriterion(InfrastructureRoot):
 
     def set_name(self, name):
         self.name = name
+        self.__setitem__('name', self.name)
     
     def get_variable_name(self):
         return self.variable_name
@@ -658,6 +682,7 @@ class DataCriterion(InfrastructureRoot):
         
     def set_sequence_number(self, num):
         self.sequence_number = num
+        self.__setitem__('sequence_number', self.sequence_number)
         
     def get_sequence_number(self):
         return self.sequence_number
@@ -667,17 +692,23 @@ class DataCriterion(InfrastructureRoot):
 
     def set_count(self, count):
         self.count = count
+        self.__setitem__('count', self.count)
 
+        
+        
     def set_id(self, criterion_id):
         self.criterion_id = criterion_id
+        self.__setitem__('criterion_id', self.criterion_id)
         # Ugh. According to https://github.com/projectcypress/health-data-standards/blob/master/resources/qdm_hqmf_r2.1_patterns/Variable_Assignment_HQMF_Pattern.md,
         # naming conventions are how we distinguish variables from other criteria.
 
         name = criterion_id.get_extension()
         if name[:8] == "qdm_var_":
             self.variable_name = self.get_key()
+            self.__setitem__('variable_name', self.variable_name)            
         else:
             self.variable_name = None
+
 
     def get_raw_id(self):
         return self.criterion_id
@@ -705,6 +736,7 @@ class DataCriterion(InfrastructureRoot):
     
     def set_value(self, value):
         self.value = value
+        self.__setitem__('value', self.value)
 
     def get_value(self):
         return(self.value)
@@ -717,24 +749,28 @@ class DataCriterion(InfrastructureRoot):
 
     def set_type_id(self, type_id):
         self.type_id = type_id
+        self.__setitem__('type_id', self.type_id)
 
     def get_type_id(self):
         return self.type_id
 
     def set_template_ids(self, list_ii_rhs):
         self.raw_template_ids = list_ii_rhs
+        self.__setitem__('raw_template_ids', self.raw_template_ids)
 
     def get_raw_template_ids(self):
         return self.raw_template_ids
 
     def set_status(self, status):
         self.status = status
+        self.__setitem__('status', self.status)
 
     def get_status(self):
         return self.status
 
     def set_result(self, result):
         self.result = result
+        self.__setitem__('result', self.result)
 
     def get_result(self):
         return self.result
@@ -742,6 +778,7 @@ class DataCriterion(InfrastructureRoot):
     def add_conjunction_entry(self, entry):
         if self.conjunction_entries == None:
             self.conjunction_entries = [entry]
+            self.__setitem__('conjunction_entries', self.conjunction_entries)
         else:
             self.conjunction_entries.append(entry)
 
@@ -750,18 +787,21 @@ class DataCriterion(InfrastructureRoot):
 
     def set_specific_occurrence(self, specific_occurrence):
         self.specific_occurrence = specific_occurrence
+        self.__setitem__('specific_occurrence', self.specific_occurrence)
 
     def get_specific_occurrence(self):
         return self.specific_occurrence
         
     def set_recent(self, recent):
         self.recent = recent
+        self.__setitem__('recent', self.recent)
         
     def get_recent(self):
         return self.recent
 
     def set_repeat_number(self, ivl_int_rhs):
         self.repeat_number = ivl_int_rhs
+        self.__setitem__('repeat_number', self.repeat_number)
 
     def get_repeat_number(self):
         return self.repeat_number
@@ -822,7 +862,7 @@ class DataCriterion(InfrastructureRoot):
                     data_type = self.get_criteria_data_type()
                 print(prefix + "Data criterion id: " + str(self.get_id()) + ", name: " + str(self.get_name()) + ", type: " + str(data_type) + suffix)
         else:
-            print(prefix + "Data criterion " + self.get_name() + suffix)
+            print(prefix + "Data criterion " + str(self.get_name()) + suffix)
             if (html):
                 print("<ul>")
             print(prefix + "ID: " + str(self.get_id()) + suffix)
@@ -997,18 +1037,27 @@ class Hl7_id:
         return self.root == other.root and self.extension == other.extension
 
         
-class SymbolTable:
+class SymbolTable(BaseDictClass):
     def __init__(self):
+        BaseDictClass.__init__(self)
         self.measure_period = None
         self.data_criteria = dict()
+        self.__setitem__('data_criteria', self.data_criteria)
         self.population_criteria = dict()
+        self.__setitem__('population_criteria', self.population_criteria)
         self.variables = dict()
+        self.__setitem__('variables', self.variables)
         self.specific_occurrences = dict()
+        self.__setitem__('specific_occurrences', self.specific_occurrences)
         self.measure_attributes = []
+        self.__setitem__('measure_attributes', self.measure_attributes)
         self.so_temporal_dependencies = dict()
+        self.__setitem__('so_temporal_dependencies', self.so_temporal_dependencies)
 
     def set_measure_period(self, measure_period):
         self.measure_period = measure_period
+        self.__setitem__('measure_period', self.measure_period)
+
 
     def get_measure_period(self):
         return self.measure_period
@@ -1078,7 +1127,9 @@ class Measure(InfrastructureRoot):
     def __init__(self):
         InfrastructureRoot.__init__(self)
         self.symbol_table = SymbolTable()
+        self['symbol_table'] = self.symbol_table
         self.populations = []
+        self['populations'] = self.populations
 
     def get_symbol_table(self):
         return(self.symbol_table)
@@ -1173,6 +1224,7 @@ class PopulationCriteriaSectionRhs(InfrastructureRoot):
     def __init__(self):
         InfrastructureRoot.__init__(self)
         self.population_criteria = dict()
+        self.data['population_criteria'] = self.population_criteria
 
     def add_population_criterion(self, crit):
         ctype = crit.get_type()
@@ -1440,8 +1492,9 @@ class IvlIntRhs(IvlBase):
             
 
 
-class PivlTs:
+class PivlTs(BaseDictClass):
     def __init__(self):
+        BaseDictClass.__init__(self)
         self.phase = None
         self.period = None
         self.frequency = None
@@ -1497,27 +1550,36 @@ class PivlTs:
 
     def set_phase(self, phase):
         self.phase = phase
+        self['phase'] = self.phase
     def set_period(self, period):
         period.make_numeric_val()
         self.period = period;
+        self['period'] = self.period
     def set_frequency(self, frequency):
         self.frequency = frequency
+        self['frequency'] = self.frequency
     def set_count(self, count):
         self.count = count
+        self['count'] = self.count
     def set_alignment(self, alignment):
         self.alignment = alignment
+        self['alignment'] = self.alignment
     def set_is_flexible(self, is_flexible):
         self.is_flexible = is_flexible
+        self['is_flexible'] = self.is_flexible
 
-class TsRhs:
+class TsRhs(BaseDictClass):
     def __init__(self):
+        BaseDictClass.__init__(self)
         self.qty = None
 
     def set_qty(self, qty):
         self.qty = qty
+        self['qty'] = self.qty
 
     def set_value(self, val):
         self.value = val
+        self['value'] = self.value
 
     def get_value(self):
         if self.qty != None:
@@ -1573,26 +1635,30 @@ class MeasureAttrValueRhs(CdRhs):
     def __init__(self):
         CdRhs.__init__(self)
 
-class StRhs:
+class StRhs(BaseDictClass):
     def __init__(self):
+        BaseDictClass.__init__(self)
         self.translation = None
         self.value = None
         self.language = None
 
     def set_translation(self, translation):
         self.transltion = translation
+        self['translation'] = self.translation
 
     def get_translation(self):
         return self.transltion
 
     def set_value(self, value):
         self.value = value
+        self['value'] = self.value
 
     def get_value(self):
         return self.value
 
     def set_language(self, language):
         self.language = language
+        self['language'] = self.language
 
     def get_language(self):
         return self.language
@@ -1604,6 +1670,7 @@ class ScRhs(StRhs):
 
     def set_code(self, code):
         self.code = code
+        self['code'] = self.code
         
 
 class IvlTsRhs(BaseDictClass):
@@ -1826,9 +1893,11 @@ class IiRhs(Hl7_id, BaseDictClass):
 
 
 
-class ListIiRhs:
+class ListIiRhs(BaseDictClass):
     def __init__(self):
+        BaseDictClass.__init__(self)
         self.ids = []
+        self['ids'] = self.ids
 
     def add_ii_rhs(self, ii_rhs):
         self.ids.append(ii_rhs)
@@ -3069,3 +3138,4 @@ class SymbolTableBuilder(HQMFv2JSONParserListener):
     def token2boolean(token):
         return string_to_boolean(token.getText())
 
+        

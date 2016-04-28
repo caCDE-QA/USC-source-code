@@ -73,7 +73,6 @@ data_criterion_entry
     | substance_administration_criterion
     | procedure_criterion
     | act_criterion
-    | pair
     ;
 
 labelled_data_criterion
@@ -101,7 +100,6 @@ observation_criterion_entry
     : A_classCode COLON S_OBS                               # OC_classcode_obs
     | S_templateId COLON list_ii_rhs                        # OC_TemplateId
     | generic_data_criterion_entry                          # OC_generic
-    | pair #OC_foo
     ;
 
 encounter_criterion : S_encounterCriteria COLON LCURLY
@@ -149,7 +147,6 @@ act_criterion_entry
     : A_classCode COLON S_ACT                              # ACT_classcode_act
     | S_templateId COLON list_ii_rhs                        # ACT_TemplateId
     | generic_data_criterion_entry                          # ACT_generic
-    | pair #xxxxx
     ;
 
 grouper_criterion : S_grouperCriteria COLON LCURLY
@@ -260,7 +257,6 @@ count_rhs: LCURLY count_rhs_entry (COMMA count_rhs_entry)* RCURLY;
 count_rhs_entry
     : subset_keyword COLON count_cd_rhs         # COUNT_RHS_subset
     | labelled_data_criterion                                 # COUNT_RHS_data_criterion
-    | pair  #count_rhs_argh
     ;
 
 count_cd_rhs

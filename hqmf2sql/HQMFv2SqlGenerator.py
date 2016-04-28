@@ -476,7 +476,7 @@ class MyTimeStamp(TypeDecorator):
         return "'" + value.isoformat() + "'"
 
     
-class ExtendedDataCriterion(DataCriterion, TemporalReferrant):
+class ExtendedDataCriterion(DataCriterion):
     def __init__(self, dc, uniqueno, max_identifier_length=64, max_column_length=32):
         self.name = dc.name
         self.dc = dc
