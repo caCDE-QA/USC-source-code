@@ -1,4 +1,5 @@
 from sqlalchemy import *
+from HQMFUtil import sql_to_string
 
 class TemporalFunctions:
     @classmethod
@@ -238,7 +239,6 @@ class TemporalFunctions:
         high = temporal_params.get_high()
         if low is not None:
             sel = cls.simple_compare_half(sel, Column.__gt__, Column.__ge__, leftcol, rightcol, low.get_value(), low.get_unit(), temporal_params.get_low_closed(), inline)
-
         if high is not None:
             sel = cls.simple_compare_half(sel, Column.__lt__, Column.__le__, leftcol, rightcol, high.get_value(), high.get_unit(), temporal_params.get_high_closed(), inline)
 

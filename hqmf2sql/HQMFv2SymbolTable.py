@@ -700,6 +700,8 @@ class DataCriterion(InfrastructureRoot):
     def get_short_name(self):
         if self.is_specific_occurrence():
             self.short_name = "so_" + str(self.dc_index)
+        if self.is_specific_occurrence_target():
+            self.short_name = "so_target_" + str(self.dc_index)            
         elif self.is_variable():
             self.short_name = "var_" + str(self.dc_index)
         else:
@@ -1078,7 +1080,9 @@ class SymbolTable(BaseDictClass):
         self.variables = dict()
         self.__setitem__('variables', self.variables)
         self.specific_occurrences = dict()
-        self.__setitem__('specific_occurrences', self.specific_occurrences)
+        self['specific_occurrences'] = self.specific_occurrences
+        self.specific_occurrence_targets = dict()
+        self.__setitem__('specific_occurrence_targets', self.specific_occurrence_targets)
         self.measure_attributes = []
         self.__setitem__('measure_attributes', self.measure_attributes)
         self.so_temporal_dependencies = dict()
@@ -1110,7 +1114,8 @@ class SymbolTable(BaseDictClass):
         so_target = self.get_data_criterion(so.get_specific_occurrence().get_criterion_id())
         so_target.set_specific_occurrence_target_indicator()
         self.data_criteria[so_target.get_key()] = so_target
-        self.specific_occurrences[so_target.get_key()] = so_target
+        self.specific_occurrences[so.get_key()] = so
+        self.specific_occurrence_targets[so_target.get_key()] = so_target
         temp = so.get_temporally_related()
         if temp is not None:
             for t in temp:
@@ -1129,11 +1134,11 @@ class SymbolTable(BaseDictClass):
         self.so_temporal_dependencies.get(lhs).add(rhs)
 
         
-    def get_specific_occurrences(self):
-        return self.specific_occurrences
+    def get_specific_occurrence_targets(self):
+        return self.specific_occurrence_targets
     
     def get_specific_occurrence(self, key):
-        return self.specific_occurrences.get(key)
+        return self.specific_occurrence_targets.get(key)
                 
     def get_variable(self, vname):
         return self.variables.get(vname)
@@ -1238,7 +1243,7 @@ class Measure(InfrastructureRoot):
         print(prefix + "Specific Occurrences" + suffix)
         if html:
             print("<ul>")
-        for v in self.symbol_table.get_specific_occurrences().values():
+        for v in self.symbol_table.get_specific_occurrence_targets().values():
             v.print_summary(self.symbol_table, dc_done, html, prefix, suffix, text_prefix_add, True)
         if html:
             print("</ul>")        
