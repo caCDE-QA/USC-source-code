@@ -9,6 +9,7 @@ from HQMFv2Data import *
 from HQMFv2SqlGenerator import SQLGenerator, DBConnection
 from sqlalchemy.sql.functions import *
 from datetime import datetime
+#from pathlib import Path
 
 usage="Usage:" + sys.argv[0] + "[-j] [-n] [-s start_time] [-e end_time] [-d] [-u] dbname infile"
 
@@ -41,6 +42,7 @@ def main(argv):
 
     dbname=ns.dbname
     infile=ns.infile
+#    name_from_file=Path(infile).stem.lower()
     hqmf_schema=ns.hqmf_schema
     result_schema=ns.result_schema
     cohort_schema=ns.cohort_schema
@@ -63,10 +65,21 @@ def main(argv):
     walker = ParseTreeWalker()
     walker.walk(builder, tree)
     measure = builder.get_measure()
+#    measure.set_measure_name(name_from_file)
     if start_time != None or end_time != None:
         measure.get_symbol_table().get_measure_period().override_values(datetime.strptime(start_time, '%Y-%m-%d'), datetime.strptime(end_time, '%Y-%m-%d'))
     if debug:
-        measure.print_summary()
+        print(json.dumps(measure, indent=4, cls=MyEncoder))
+        #print(str(measure))
+        # for p in measure.populations:
+        #     print(str(measure))
+        #     print("=== POPULATION ===")
+        #     print(str(p))
+        #     print("population: ")
+        #     print("   value_dict: " + str(p.value_dict))
+        #     print("   population_criteria: " + str(p.population_criteria))
+        sys.exit(0)
+
     generator = SQLGenerator(DB_BASE_URL+dbname, hqmf_schema, result_schema, measure, inline_preference=False)
     if debug:
         generator.print_debug()

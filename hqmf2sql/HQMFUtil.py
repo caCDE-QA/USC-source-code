@@ -1,4 +1,5 @@
 from HQMFIntervalUtil import HQMFIntervalUtil
+import sqlparse
 
 def strip_quotes(s):
     if (isinstance(s, str) and
@@ -28,5 +29,8 @@ def string_to_boolean(sval):
     else:
         raise ValueError("bad value for cname : " + str(sval))
 
-def sql_to_string(sql):
-    return str(sql.compile(compile_kwargs={"literal_binds": True}, dialect=HQMFIntervalUtil.get_dialect()))
+def sql_to_string(sql, pretty=False):
+    result=str(sql.compile(compile_kwargs={"literal_binds": True}, dialect=HQMFIntervalUtil.get_dialect()))
+    if pretty:
+        result=sqlparse.format(result, reindent=True)
+    return result

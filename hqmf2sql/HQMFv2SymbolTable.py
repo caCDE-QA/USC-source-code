@@ -192,6 +192,13 @@ class BaseDictClass(UserDict):
 
     def serializable_version(self):
         return self.data
+
+    def clone_data(self):
+        d=dict()
+        for k in self.data.keys():
+            d[k] = self[k]
+        return(d)
+    
     
     def set_name_value_pair(self, name, value):
         self.data[name] = value
@@ -604,6 +611,7 @@ class Excerpt(InfrastructureRoot):
 
 
 class DataCriterion(InfrastructureRoot):
+    index_number = 0
     def __init__(self):
         InfrastructureRoot.__init__(self)
         self.name = None
@@ -612,10 +620,12 @@ class DataCriterion(InfrastructureRoot):
         self.value = None
         self.raw_template_ids = None
         self.temporally_related = []
+        self['temporally_related'] = self.temporally_related
         self.type_id = None
         self.status = None
         self.result = None
         self.outbound_relationship_list = []
+        self['outbound_relationship_list'] = self.outbound_relationship_list
         self.recent = None
         self.conjunction_entries = None
         self.specific_occurrence = None
@@ -626,6 +636,16 @@ class DataCriterion(InfrastructureRoot):
         self.specific_occurrence_target_indicator = False
         self.code_list = None
         self.variable_name = None
+        self.short_name = None
+        self.dc_index = self.next_index()
+
+    @classmethod
+    def next_index(cls):
+        cls.index_number = cls.index_number + 1
+        return cls.index_number
+
+    def serializable_version(self):
+        return self.clone_data()
 
     def is_negation(self):
         return self.data.get(token_name(LEXER.A_actionNegationInd)) == True
@@ -676,7 +696,17 @@ class DataCriterion(InfrastructureRoot):
     
     def get_variable_name(self):
         return self.variable_name
-    
+
+    def get_short_name(self):
+        if self.is_specific_occurrence():
+            self.short_name = "so_" + str(self.dc_index)
+        elif self.is_variable():
+            self.short_name = "var_" + str(self.dc_index)
+        else:
+            self.short_name = 'dc_' + str(self.dc_index)
+        self['short_name'] = self.short_name
+        return self.get('short_name')
+
     def is_variable(self):
         return self.get_variable_name() != None
         
@@ -1130,12 +1160,15 @@ class Measure(InfrastructureRoot):
         self['symbol_table'] = self.symbol_table
         self.populations = []
         self['populations'] = self.populations
+        self['measure_name'] = None
 
     def get_symbol_table(self):
         return(self.symbol_table)
     
     def get_measure_name(self):
         found = False
+        if self.data.get('measure_name') != None:
+            return self.data.get('measure_name')
         for attr in self.symbol_table.get_measure_attributes():
             code = attr.get_dict_entry(LEXER.S_code)
             if code != None:
@@ -1154,6 +1187,14 @@ class Measure(InfrastructureRoot):
         return "unknown_measure"             
                 
 
+    def __getitem__(self, key):
+        if key == 'measure_name':
+            return self.get_measure_name()
+        return InfrastructureRoot.__getitem__(self, key)
+
+    def serializable_version(self):
+        return self.clone_data()
+    
     def add_population(self, population):
         self.populations.append(population)
 
