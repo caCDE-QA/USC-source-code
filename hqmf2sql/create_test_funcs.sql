@@ -18,7 +18,8 @@ BEGIN
        loop
           query = 'insert into test_results(test_name, passed) select distinct
 	     ''' || summary_table_name || ''', 
-	     not exists (select 1 from answer_key.' || summary_table_name || ' expected
+	     exists (select 1 from answer_key.' || summary_table_name || ' a where me.patient_id = a.patient_id) and ' ||
+	     ' not exists (select 1 from answer_key.' || summary_table_name || ' expected
                where me.patient_id = expected.patient_id and (me.effective_ipp is distinct from expected.effective_ipp or
                  me.effective_denom is distinct from expected.effective_denom or
                  me.effective_denex is distinct from expected.effective_denex or

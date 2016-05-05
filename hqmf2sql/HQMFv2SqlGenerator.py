@@ -215,7 +215,7 @@ class DataSelectable:
         self.columns = dict()
         for c in table.c:
             self.columns[c.name] = c
-        return select([table])
+        return select([table]).correlate(self.symbol_table.base_select).where(self.columns.get(QDMConstants.PATIENT_ID_COL) == self.symbol_table.get_anchor_column())
 
     
     def create_data_selectable(self, column_names=None, correlate=True):
