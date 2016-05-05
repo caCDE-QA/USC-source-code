@@ -144,14 +144,16 @@ class DataSelectable:
             col = so_sel.get_column(name)
             if col is not None:
                 # don't fret about missing row_number col
-                self.columns[name] = col.label(self.dc.to_so_colname(col.name))
+#                if correlate:
+#                    col = col.label(self.dc.to_so_colname(col.name))
+                self.columns[name] = col
                 cols.append(col)
         sel = select(cols)
         if correlate:
             unique_col = so_sel.get_column(QDMConstants.UNIQUE_ID)
-            unique_name = so_sel.expand_column_name(QDMConstants.UNIQUE_ID)
+            unique_name = self.dc.to_so_colname(QDMConstants.UNIQUE_ID)
+            sel = sel.correlate(self.symbol_table.base_select)            
             sel = sel.where(unique_col == self.symbol_table.base_select.c.get(unique_name))
-            sel = sel.correlate(self.symbol_table.base_select)
         sel = self.add_temporal_references(sel)
         sel = self.add_subset_restrictions(sel)
         sel = self.add_count(sel)
@@ -344,11 +346,10 @@ class DataSelectable:
             code_list_id = value.get_value_set()
             code_list_table = self.symbol_table.code_lists()
             code_map_table = self.symbol_table.individual_code_map()
-
             if code_list_id is not None:
-                codes = select([cast(code_map_table.c.data_code, String(256))])\
-                    .select_from(code_list_table.join(code_map_table, code_list_table.c.code == code_map_table.c.code))\
-                .where(code_list_table.c.code_list_id == code_list_id)\
+                codes = select([cast(code_list_table.c.code, String(256))])\
+                    .select_from(code_list_table)\
+                    .where(code_list_table.c.code_list_id == code_list_id)\
                     .alias("value_alias")
 
                 sel = sel.where(cast(col, String(256)).in_(codes))
@@ -356,7 +357,6 @@ class DataSelectable:
             code_system = value.get_code_system()
             code_values = value.get_code()
             code_map_table = self.symbol_table.individual_code_map()
-
             if code_system is not None and code_values is not None:
                 codes = select([cast(code_map_table.c.data_code, String(256))])\
                 .where(and_(code_map_table.c.code_system == code_system,
@@ -485,7 +485,8 @@ class SpecificOccurrenceSelectable(DataSelectable):
             bc = col.base_columns
             if bc != None and len(bc) > 0:
                 name = list(bc)[0].name
-            self.columns[name] = col.label(self.dc.to_so_colname(col.name))
+#            self.columns[name] = col.label(self.dc.to_so_colname(col.name))
+            self.columns[name] = col.label(name)
         self.add_row_number_column()
                
 
