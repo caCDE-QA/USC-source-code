@@ -6,7 +6,7 @@ from sqlalchemy import *
 from sqlalchemy.sql.functions import *
 from sqlalchemy.sql.elements import Label
 from sqlalchemy.types import Boolean, Integer, String, DateTime, Date
-from sqlalchemy.schema import CreateTable
+from sqlalchemy.schema import CreateTable, CreateIndex
 from HQMFv2SymbolTable import SymbolTable, DataCriterion, TemporalReferrant, MeasurePeriod, PopulationCriterion, Precondition
 from HQMFv2SymbolTable import ValueSetRhs, CdRhs, ValueAnyNonNullRhs, IvlPqRhs
 import sys
@@ -182,7 +182,7 @@ class DataSelectable:
                                   child_sel.get_column(QDMConstants.UNIQUE_ID).label(QDMConstants.UNIQUE_ID)])
 #            children.append(child_query.alias().select())
             children.append(child_query)
-        sel = self.apply_set_function(code, children)
+        sel = self.apply_set_function(code, children, correlate=correlate)
         if len(self.dc.get_temporally_related()) > 0:
             sel = self.add_temporal_references(sel, correlate=correlate)
         sel = self.add_subset_restrictions(sel)
@@ -199,7 +199,7 @@ class DataSelectable:
             sel = sel.alias()
         return sel
 
-    def apply_set_function(self, code, children):
+    def apply_set_function(self, code, children, correlate=True):
         if len(children) == 1:
             return children[0]
 
@@ -215,7 +215,10 @@ class DataSelectable:
         self.columns = dict()
         for c in table.c:
             self.columns[c.name] = c
-        return select([table]).correlate(self.symbol_table.base_select).where(self.columns.get(QDMConstants.PATIENT_ID_COL) == self.symbol_table.get_anchor_column())
+        sel = select([table])
+        if correlate:
+            sel = sel.correlate(self.symbol_table.base_select).where(self.columns.get(QDMConstants.PATIENT_ID_COL) == self.symbol_table.get_anchor_column())
+        return sel
 
     
     def create_data_selectable(self, column_names=None, correlate=True):
@@ -817,7 +820,17 @@ class SQLGenerator:
         print(str(CreateTable(table, bind=self.db.engine)))
         print(self.result_util.statement_terminator())
         print(sql_to_string(table.insert().from_select(sel.columns, sel), self.pretty))
-        print(self.result_util.statement_terminator())        
+        print(self.result_util.statement_terminator())
+        for c in table.columns:
+            bc = c.base_columns
+            if bc != None and len(bc) > 0:
+                bname = list(bc)[0].name
+            else:
+                bname = c.name
+            if bname.endswith(QDMConstants.PATIENT_ID_COL):
+                ixname = 'ix_' + table.name + '_' + c.name
+                print(str(CreateIndex(Index(ixname, c), bind=self.db.engine)))
+                print(self.result_util.statement_terminator())        
         return table
         
     def measure_name(self):
