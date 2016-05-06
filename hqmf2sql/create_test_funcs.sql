@@ -16,17 +16,29 @@ BEGIN
        select distinct tablename from pg_tables p1 where schemaname = current_schema() and tablename like 'measure%patient_summary'
         and exists (select 1 from pg_tables p2 where p2.schemaname = 'answer_key' and p2.tablename = p1.tablename)
        loop
-          query = 'insert into test_results(test_name, passed) select distinct
-	     ''' || summary_table_name || ''', 
-	     exists (select 1 from answer_key.' || summary_table_name || ' a where me.patient_id = a.patient_id) and ' ||
-	     ' not exists (select 1 from answer_key.' || summary_table_name || ' expected
-               where me.patient_id = expected.patient_id and (me.effective_ipp is distinct from expected.effective_ipp or
-                 me.effective_denom is distinct from expected.effective_denom or
-                 me.effective_denex is distinct from expected.effective_denex or
-                 me.effective_numer is distinct from expected.effective_numer or
-                 me.effective_denexcep is distinct from expected.effective_denexcep))
-             from ' || summary_table_name || ' me ';
+          query = 'insert into test_results(test_name, passed) select
+	     ''' || summary_table_name || '_all_expected_found'', ' ||
+	     ' not exists (select 1 from answer_key.' || summary_table_name || ' a where not exists ' ||
+	       '(select 1 from ' || summary_table_name || ' me where me.patient_id = a.patient_id))';
 	  execute query;
+          query = 'insert into test_results(test_name, passed) select
+	     ''' || summary_table_name || '_no_unexpected_found'', ' ||
+	    ' not exists (select 1 from ' || summary_table_name || ' me where not exists ' ||
+	       '(select 1 from answer_key.' || summary_table_name || ' a where a.patient_id = me.patient_id))';
+	  execute query;
+          query = 'insert into test_results(test_name, passed) select
+	     ''' || summary_table_name || '_agrees_with_expected'', ' ||
+	     ' not exists (select 1 from answer_key.' || summary_table_name || ' a where not exists ' ||
+	     ' (select 1 from ' || summary_table_name || ' me 
+                   where me.patient_id = a.patient_id and 
+                (me.effective_ipp is not distinct from a.effective_ipp or
+                 me.effective_denom is not distinct from a.effective_denom or
+                 me.effective_denex is not distinct from a.effective_denex or
+                 me.effective_numer is not distinct from a.effective_numer or
+                 me.effective_denexcep is not distinct from a.effective_denexcep)))';
+	  execute query;
+
+
        end loop;
        return null;
 END
