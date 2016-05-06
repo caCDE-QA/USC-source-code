@@ -194,8 +194,8 @@ class DataSelectable:
 #                sel = sel.select()
             sel = sel.alias(self.dc.so_name())
         elif self.dc.is_variable():
-            if code is not None:
-                sel = sel.select()
+#            if code is not None:
+#                sel = sel.select()
             sel = sel.alias(self.dc.get_variable_shortname())
         else:
             sel = sel.alias()
@@ -1090,7 +1090,7 @@ class ExtendedPrecondition(Precondition):
                 tbl = ref_sel.create_selectable()
                 if tbl == None:
                     pass
-                sel = exists(tbl.c)
+                sel = exists(tbl.c).alias()
 #                sel = select([cast(True, Boolean)]).where(exists(tbl.c)).alias()
 
 #                if ref.get_raw_count() == None:
