@@ -473,6 +473,22 @@ create or replace view procedure_intolerance as
 from generic_hqmf_event g join hl7_template_xref x on x.template_id = any(g.template_ids)
 where x.template_name in ('procedure_intolerance');
 
+create or replace view functional_status_performed as
+  select distinct
+    g.patient_id,
+    g.start_dt,
+    g.end_dt,
+    g.code,
+    g.status,
+    g.negation,
+    g.value::numeric,
+    g.audit_key_type,
+    g.audit_key_value,
+    null::numeric reason
+from generic_hqmf_event g join hl7_template_xref x on x.template_id = any(g.template_ids)
+where x.template_name = 'functional_status_performed';
+
+
 -- death is missing
 -- tobacco_use goes into patient_characteristic (it's coded as an assertion)
 

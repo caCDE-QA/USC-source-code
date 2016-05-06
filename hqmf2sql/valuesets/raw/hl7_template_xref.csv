@@ -1,7 +1,7 @@
 template_id,template_name
-2.16.840.1.113883.10.20.24.3.4,communication
-2.16.840.1.113883.10.20.24.3.3,communication
 2.16.840.1.113883.10.20.24.3.2,communication
+2.16.840.1.113883.10.20.24.3.3,communication
+2.16.840.1.113883.10.20.24.3.4,communication
 2.16.840.1.113883.10.20.24.3.6,device_allergy
 2.16.840.1.113883.10.20.24.3.7,device_applied
 2.16.840.1.113883.10.20.24.3.11,diagnosis_active
@@ -10,13 +10,14 @@ template_id,template_name
 2.16.840.1.113883.10.20.24.3.17,diagnostic_study_order
 2.16.840.1.113883.10.20.24.3.18,diagnostic_study_performed
 2.16.840.1.113883.10.20.24.3.20,diagnostic_study_result
-2.16.840.1.113883.10.20.24.3.23,encounter
 2.16.840.1.113883.10.20.24.3.21,encounter
+2.16.840.1.113883.10.20.24.3.23,encounter
+2.16.840.1.113883.10.20.24.3.26,functional_status_performed
 2.16.840.1.113883.10.20.24.3.28,functional_status_result
 2.16.840.1.113883.10.20.24.3.32,intervention_performed
-2.16.840.1.113883.10.20.24.3.40,laboratory_test
-2.16.840.1.113883.10.20.24.3.38,laboratory_test
 2.16.840.1.113883.10.20.24.3.37,laboratory_test
+2.16.840.1.113883.10.20.24.3.38,laboratory_test
+2.16.840.1.113883.10.20.24.3.40,laboratory_test
 2.16.840.1.113883.10.20.24.3.41,medication_active
 2.16.840.1.113883.10.20.22.4.16,medication_activity_consolidation
 2.16.840.1.113883.10.20.24.3.42,medication_administered
@@ -30,8 +31,8 @@ template_id,template_name
 2.16.840.1.113883.10.20.24.3.94,problem_status_active
 2.16.840.1.113883.10.20.24.3.62,procedure_intolerance
 2.16.840.1.113883.10.20.24.3.64,procedure_performed
-2.16.840.1.113883.10.20.24.3.87,procedure_result
 2.16.840.1.113883.10.20.24.3.66,procedure_result
+2.16.840.1.113883.10.20.24.3.87,procedure_result
 2.16.840.1.113883.10.20.24.3.88,reason
 2.16.840.1.113883.10.20.24.3.69,risk_category_assessment
 2.16.840.1.113883.10.20.22.4.85,tobacco_use

@@ -8,7 +8,7 @@ from sqlalchemy.sql.elements import Label
 from sqlalchemy.types import Boolean, Integer, String, DateTime, Date
 from sqlalchemy.schema import CreateTable, CreateIndex
 from HQMFv2SymbolTable import SymbolTable, DataCriterion, TemporalReferrant, MeasurePeriod, PopulationCriterion, Precondition
-from HQMFv2SymbolTable import ValueSetRhs, CdRhs, ValueAnyNonNullRhs, IvlPqRhs
+from HQMFv2SymbolTable import ValueSetRhs, CdRhs, ValueAnyNonNullRhs, IvlPqRhs, MyEncoder
 import sys
 import sqlparse
 from datetime import timedelta
@@ -16,6 +16,7 @@ from HQMFIntervalUtil import HQMFIntervalType, HQMFIntervalUtil, HQMFResultUtil
 from HQMFv2TemporalFunctions import TemporalFunctions
 from toposort import toposort, toposort_flatten
 import html
+import json
 
 VALUESET_SCHEMA = 'valuesets'
 HQMF='hqmf'
@@ -182,21 +183,20 @@ class DataSelectable:
                                   child_sel.get_column(QDMConstants.STARTTIME).label(QDMConstants.STARTTIME),
                                   child_sel.get_column(QDMConstants.ENDTIME).label(QDMConstants.ENDTIME),
                                   child_sel.get_column(QDMConstants.UNIQUE_ID).label(QDMConstants.UNIQUE_ID)])
-#            children.append(child_query.alias().select())
             children.append(child_query)
         sel = self.apply_set_function(code, children, correlate=correlate)
         if len(self.dc.get_temporally_related()) > 0:
             sel = self.add_temporal_references(sel, correlate=correlate)
-        sel = self.add_subset_restrictions(sel)
+        sel = self.add_subset_restrictions(sel)            
         sel = self.add_count(sel)
         if self.dc.is_specific_occurrence_target():
 #            if code is not None:
 #                sel = sel.select()
-            sel = sel.cte(self.dc.so_name())
+            sel = sel.alias(self.dc.so_name())
         elif self.dc.is_variable():
             if code is not None:
                 sel = sel.select()
-            sel = sel.cte(self.dc.get_variable_shortname())
+            sel = sel.alias(self.dc.get_variable_shortname())
         else:
             sel = sel.alias()
         return sel
@@ -217,7 +217,8 @@ class DataSelectable:
         self.columns = dict()
         for c in table.c:
             self.columns[c.name] = c
-        sel = select([table])
+        self.columns[QDMConstants.ROW_NUMBER] = self.new_row_number_column()
+        sel = select(table.columns + [self.columns[QDMConstants.ROW_NUMBER]])
         if correlate:
             sel = sel.correlate(self.symbol_table.base_select).where(self.columns.get(QDMConstants.PATIENT_ID_COL) == self.symbol_table.get_anchor_column())
         return sel
@@ -234,9 +235,9 @@ class DataSelectable:
         sel = self.add_subset_restrictions(sel)
         sel = self.add_count(sel)
         if self.dc.is_specific_occurrence_target():
-            sel = sel.cte(self.dc.so_name())
+            sel = sel.alias(self.dc.so_name())
         elif self.dc.is_variable():
-            sel = sel.cte(self.dc.get_variable_shortname())
+            sel = sel.alias(self.dc.get_variable_shortname())
         else:
             sel = sel.alias(self.get_alias_name())
         return sel
@@ -278,6 +279,8 @@ class DataSelectable:
                 if referrant == None:
                     print("No selectable for " + ref.get_criterion_id())
                 selectable = referrant.get_selectable(self.symbol_table, correlate=correlate)
+                # Sometimes overkill, but not always
+                sel = sel.where(self.get_column(QDMConstants.PATIENT_ID_COL) == selectable.get_column(QDMConstants.PATIENT_ID_COL))
                 sel = TemporalFunctions.process(t, sel, self, selectable, self.symbol_table.get_inline_preference())
         return sel
     
@@ -488,7 +491,10 @@ class SpecificOccurrenceSelectable(DataSelectable):
 #            self.columns[name] = col.label(self.dc.to_so_colname(col.name))
             self.columns[name] = col.label(name)
         self.add_row_number_column()
-               
+
+    def set_column(self, name, val):
+        self.columns[name] = val
+
 
 class MyTimeStamp(TypeDecorator):
     impl = TIMESTAMP
@@ -598,7 +604,7 @@ class ExtendedSpecificOccurrence(ExtendedDataCriterion):
             data_type = dc.get_criteria_data_type()
             if data_type == None:
                 data_type="grouper"
-            self.so_table_name = 'so_' + str(dc.dc_index) + '_' + data_type
+            self.so_table_name = 'so_target_' + str(dc.dc_index) + '_' + data_type
         else:
             so_ref = dc.get_specific_occurrence()
             so = raw_symbol_table.get_specific_occurrence(so_ref.get_criterion_id())
@@ -624,7 +630,7 @@ class ExtendedSpecificOccurrence(ExtendedDataCriterion):
         return data_selectable.get_basetable_alias(symbol_table)
 
     def get_unique_id(self, symbol_table=None):
-        return self.get_selectable(symbol_table).get_unique_id()
+        return self.get_selectable(symbol_table).get_unique_id()       
 
     def is_specific_occurrence(self):
         return True
@@ -733,7 +739,7 @@ class ExtendedSymbolTable(SymbolTable):
             sel.set_subquery_table(sql_generator.create_table_from_select(var.get_short_name(), query))
 
         processed_sos = dict()            
-        for var in self.specific_occurrences.values():
+        for var in self.specific_occurrences.values():                  
             sel = var.get_selectable(self, correlate=False)            
             root = var.get_raw_id().get_root()                        
             join_conds = [sel.get_column(QDMConstants.PATIENT_ID_COL) == anchor_column]
@@ -756,6 +762,9 @@ class ExtendedSymbolTable(SymbolTable):
 #        self.base_select = base_select.alias('patient_base')
 #        self.anchor_column = self.base_select.corresponding_column(anchor_column)
         self.base_select = sql_generator.create_table_from_select('patient_base', select(base_select_cols).select_from(base_from))
+        for var in self.specific_occurrences.values():
+            for colname in [QDMConstants.UNIQUE_ID, QDMConstants.STARTTIME, QDMConstants.ENDTIME]:
+                var.get_selectable(self).set_column(colname, self.base_select.c.get(var.to_so_colname(colname)))
         self.anchor_column = self.base_select.c.get(self.outer_colname(QDMConstants.PATIENT_ID_COL))
         self.anchor_table = self.base_select
 
@@ -809,10 +818,10 @@ class SQLGenerator:
         self.symbol_table.measure_name = self.measure_name()
         self.symbol_table.sql_generator = self
 
-    def create_table_from_select(self, name_suffix, sel):
+    def create_empty_table(self, name_suffix, base_cols):
         table_name = 'measure_' + self.measure_name() + '_' + name_suffix
         cols = []
-        for c in sel.columns:
+        for c in base_cols:
             cols.append(Column(c.name, c.type))
         table = Table(table_name,
                       self.db.meta,
@@ -820,6 +829,11 @@ class SQLGenerator:
                       schema=self.result_util.get_schema())
         print(str(CreateTable(table, bind=self.db.engine)))
         print(self.result_util.statement_terminator())
+        return table
+
+    def populate_table_from_select(self, table, sel):
+        if table is None or sel is None:
+            raise ValueError("table or select not set")
         print(sql_to_string(table.insert().from_select(sel.columns, sel), self.pretty))
         print(self.result_util.statement_terminator())
         for c in table.columns:
@@ -833,6 +847,12 @@ class SQLGenerator:
                 print(str(CreateIndex(Index(ixname, c), bind=self.db.engine)))
                 print(self.result_util.statement_terminator())        
         return table
+
+    def create_table_from_select(self, name_suffix, sel):
+        if sel is None:
+            raise ValueError("sel is None")
+        table = self.create_empty_table(name_suffix, sel.columns)
+        return self.populate_table_from_select(table, sel)
         
     def measure_name(self):
         return self.measure.get_measure_name()

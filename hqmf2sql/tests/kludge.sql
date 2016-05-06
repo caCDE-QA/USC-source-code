@@ -30,6 +30,5 @@ create view diagnosis_family_history as select * from diagnosis_active where fal
 create view procedure_order as select * from procedure_performed where status = 'ordered';
 create view patient_characteristic_clinical_trial_participant as select * from individual_characteristic;
 create view patient_characteristic_expired as select * from individual_characteristic;
-create view functional_status_performed as select * from procedure_performed;
 
 create view intervention_order as select * from intervention_ordered;
