@@ -1,0 +1,20 @@
+test_time,measure_name,total_ipp,total_denom,total_denex,total_numer,total_denexcep
+2016-05-06 01:20:57.336564,measure_124_0_patient_summary,10,10,0,1,
+2016-05-06 01:20:57.336564,measure_125_0_patient_summary,5,5,0,1,
+2016-05-06 01:20:57.336564,measure_127_0_patient_summary,6,6,,1,
+2016-05-06 01:20:57.336564,measure_130_0_patient_summary,6,6,0,1,
+2016-05-06 01:20:57.336564,measure_131_0_patient_summary,3,3,,2,
+2016-05-06 01:20:57.336564,measure_132_0_patient_summary,2,2,0,1,
+2016-05-06 01:20:57.336564,measure_133_0_patient_summary,2,2,0,1,
+2016-05-06 01:20:57.336564,measure_139_0_patient_summary,8,8,,1,
+2016-05-06 01:20:57.336564,measure_143_0_patient_summary,2,2,,1,0
+2016-05-06 03:16:09.258783,measure_148_0_patient_summary,3,3,,2,
+2016-05-06 01:20:57.336564,measure_161_0_patient_summary,3,3,,1,
+2016-05-06 01:20:57.336564,measure_163_0_patient_summary,3,3,,2,
+2016-05-06 01:20:57.336564,measure_164_0_patient_summary,3,3,,2,
+2016-05-06 01:20:57.336564,measure_167_0_patient_summary,2,2,,1,0
+2016-05-06 01:20:57.336564,measure_177_0_patient_summary,2,2,,1,
+2016-05-06 01:20:57.336564,measure_74_0_patient_summary,15,15,,1,
+2016-05-06 01:20:57.336564,measure_75_0_patient_summary,15,15,,1,
+2016-05-06 01:20:57.336564,measure_77_0_patient_summary,2,2,,1,
+2016-05-06 01:20:57.336564,measure_90_0_patient_summary,4,4,1,1,

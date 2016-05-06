@@ -843,7 +843,7 @@ class SQLGenerator:
             else:
                 bname = c.name
             if bname.endswith(QDMConstants.PATIENT_ID_COL):
-                ixname = 'ix_' + table.name + '_' + c.name
+                ixname = 'ix_' + table.name + '_' + QDMConstants.PATIENT_ID_COL
                 print(str(CreateIndex(Index(ixname, c), bind=self.db.engine)))
                 print(self.result_util.statement_terminator())        
         return table
