@@ -29,13 +29,13 @@ BEGIN
           query = 'insert into test_results(test_name, passed) select
 	     ''' || summary_table_name || '_agrees_with_expected'', ' ||
 	     ' not exists (select 1 from answer_key.' || summary_table_name || ' a where not exists ' ||
-	     ' (select 1 from ' || summary_table_name || ' me 
-                   where me.patient_id = a.patient_id and 
-                (me.effective_ipp is not distinct from a.effective_ipp or
-                 me.effective_denom is not distinct from a.effective_denom or
-                 me.effective_denex is not distinct from a.effective_denex or
-                 me.effective_numer is not distinct from a.effective_numer or
-                 me.effective_denexcep is not distinct from a.effective_denexcep)))';
+	     ' (select 1 from ' || summary_table_name || ' me where
+	         me.patient_id = a.patient_id and
+                 me.effective_ipp is not distinct from a.effective_ipp and
+                 me.effective_denom is not distinct from a.effective_denom and
+                 me.effective_denex is not distinct from a.effective_denex and
+                 me.effective_numer is not distinct from a.effective_numer and
+                 me.effective_denexcep is not distinct from a.effective_denexcep))';
 	  execute query;
 
 
