@@ -1060,43 +1060,50 @@ class ExtendedPrecondition(Precondition):
         Precondition.__init__(self)
         self.precondition = prec
 
-    def to_sql(self, symbol_table, name = None):
+    def to_sql(self, symbol_table, name = None, toplevel = True):
+#        print("xxx - in EP.to_sel, toplevel is " + str(toplevel))        
         sel = None
         grp = self.precondition.get_grouping()
         if grp != None:
+#            print("xxx - in EP.to_sel, found grouping")
             children = []
             for child in grp.get_preconditions():
-                childsql = ExtendedPrecondition(child).to_sql(symbol_table)
+                childsql = ExtendedPrecondition(child).to_sql(symbol_table, toplevel = False)
                 if childsql is not None:
                     children.append(childsql)
             if len(children) > 0:
+#                print("xxx - in EP.to_sel, have grouping, children: " + str(len(children)))                
                 if grp.grouping_type == 'allTrue':
-                    sel = select([and_(*children)])
+                    sel = and_(*children)
                 elif grp.grouping_type == 'atLeastOneTrue':
-                    sel = select([or_(*children)])
+                    sel = or_(*children)
                 elif grp.grouping_type == 'allFalse':
-                    sel = select([not_(or_(*children))])
+                    sel = not_(or_(*children))
                 elif grp.grouping_type == 'atLeastOneFalse':
-                    sel = select([not_(and_(*children))])
+                    sel = not_(and_(*children))
                 else:
                     raise ValueError("Unknown grouping type: " + str(grp.grouping_type))
+#            if toplevel:
+#                sel = select([sel])
+#            print("xxx - in EP.to_sel, returning from grp")                
             return sel
         ref = self.follow_criteria_reference(symbol_table)
+#        print("xxx - in EP.to_sel, ref is " + str(type(ref)))
         if ref != None:
             if isinstance(ref, DataCriterion):
+#                print("xxx - in EP.to_sel, ref is a datacriterion")
                 ref_sel = ref.get_selectable(symbol_table)
-                if ref_sel == None:
-                    pass
+#                print("xxx - in EP.to_sel, ref_sel is " + str(ref_sel))
                 tbl = ref_sel.create_selectable()
-                if tbl == None:
-                    pass
-                sel = exists(tbl.c).alias()
+#                print("xxx - in EP.to_sel, tbl is " + str(tbl))
+                sel = exists(tbl.alias().c).label('xists')
 #                sel = select([cast(True, Boolean)]).where(exists(tbl.c)).alias()
 
 #                if ref.get_raw_count() == None:
 #                    sel = exists(ref.get_selectable(symbol_table).create_selectable().c)
 #                else:
 #                    sel = ref.get_selectable(symbol_table).create_selectable()
+#        print("xxx - in EP.to_sel, returning at end")
         return sel
     
     def get_raw_criteria_reference(self):

@@ -22,6 +22,7 @@ DECLARE
    summary_table_name text;
    answer_key_name text;
    query text;
+   q text;	
 BEGIN
    truncate table measure_totals;
    truncate table test_results;
@@ -50,21 +51,23 @@ BEGIN
                  me.effective_numer is not distinct from a.effective_numer and
                  me.effective_denexcep is not distinct from a.effective_denexcep))';
 	  execute query;
+       end loop;
+   for summary_table_name in
+       select distinct tablename from pg_tables p1 where schemaname = current_schema() and tablename like 'measure%patient_summary'
+       loop
 	  query = 'insert into measure_totals (measure_name, total_ipp, total_denom, total_numer, total_denex, total_denexcep) select ''' || summary_table_name || ''', sum(effective_ipp::integer), sum(effective_denom::integer), sum(effective_numer::integer), sum(effective_denex::integer), sum(effective_denexcep::integer) from ' || summary_table_name;
 	  execute query;
-	  query = 'insert into test_results(measure_name, test_name, passed) select ''' ||
-	     summary_table_name || ''', ''totals_match'', ' ||
-	    ' exists (select 1 from measure_totals me join answer_key.measure_totals a
-	    on a.measure_name = me.measure_name where
-	    a.measure_name = ''' || summary_table_name || ''' and
-	    a.total_ipp is not distinct from me.total_ipp and
-	    a.total_denom is not distinct from me.total_denom and
-	    a.total_denex is not distinct from me.total_denex and
- 	    a.total_numer is not distinct from me.total_numer and
-	    a.total_denexcep is not distinct from me.total_denexcep)';
-	  execute query;
        end loop;
-       return null;
+       insert into test_results(measure_name, test_name, passed)
+          select me.measure_name, '''totals_match''',
+            exists (select 1 from answer_key.totals_key a where me.measure_name = a.measure_name and
+	       a.total_ipp is not distinct from me.total_ipp and
+	       ((a.total_denom is not distinct from me.total_denom) or (a.total_denom = 0 and me.total_denom is null)) and
+	       ((a.total_denex is not distinct from me.total_denex) or (a.total_denex = 0 and me.total_denex is null)) and
+	       ((a.total_numer is not distinct from me.total_numer) or (a.total_numer = 0 and me.total_numer is null)) and
+	       ((a.total_denexcep is not distinct from me.total_denexcep) or (a.total_denexcep = 0 and me.total_denexcep is null)))
+            from measure_totals me where me.total_ipp is not null;
+	return null;
 END
 $$
 language 'plpgsql';
