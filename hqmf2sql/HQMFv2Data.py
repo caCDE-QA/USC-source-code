@@ -64,12 +64,7 @@ class TemporalReferrant(UserDict):
     def serializable_version(self):
         d=dict()
         for k in self.data.keys():
-            if k == 'start_time':
-                d[k] = self.get_start_time()
-            elif k == 'end_time':
-                d[k] = self.get_end_time()
-            else:
-                d[k] = self.data.get(k)
+            d[k] = self[k]
         return(d)
             
     def __getitem__(self, key):
