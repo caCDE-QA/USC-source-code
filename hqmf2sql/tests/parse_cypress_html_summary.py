@@ -12,7 +12,10 @@ class CypressResultParser(HTMLParser):
         self.skip_column = True
         self.in_td = False
         self.current_data = ""
-
+        self.detail_links = dict()
+        self.in_link = False
+        self.current_link = None
+        
     def handle_starttag(self, tag, attrs):
         if tag == 'h4':
             self.in_h4 = True
@@ -21,6 +24,10 @@ class CypressResultParser(HTMLParser):
                 self.current_row = []
             if tag == "td":
                 self.in_td = True
+            if tag == 'a' and self.in_td:
+                for a in attrs:
+                    if a[0] == 'href':
+                        self.current_link = a[1]
 #            print("Encountered a start tag:", tag)            
     def handle_endtag(self, tag):
         if tag == 'h4':
@@ -42,6 +49,7 @@ class CypressResultParser(HTMLParser):
                             col = col.lower()
                         row.append(col)
                     row.append(self.current_row[0])
+                    row.append(self.current_link)
                     self.data.append(row) 
                 self.skip_column = True
             if tag == "td":
@@ -52,7 +60,7 @@ class CypressResultParser(HTMLParser):
                 self.current_data = ""
                 self.in_td = False
                 self.skip_column = False
-#            print("Encountered an end tag :", tag)            
+#            print("Encountered an end tag :", tag)
     def handle_data(self, data):
         if self.in_h4 and "MEASURES" in data:
             self.in_measure_section = True
