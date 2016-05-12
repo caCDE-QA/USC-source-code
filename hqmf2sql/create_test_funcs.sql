@@ -27,8 +27,8 @@ BEGIN
    truncate table measure_totals;
    truncate table test_results;
    for summary_table_name in
-       select distinct tablename from pg_tables p1 where schemaname = current_schema() and tablename like 'measure%patient_summary'
-        and exists (select 1 from pg_tables p2 where p2.schemaname = 'answer_key' and p2.tablename = p1.tablename)
+       select distinct table_name from information_schema.tables p1 where table_schema = current_schema() and table_name like 'measure%patient_summary'
+        and exists (select 1 from information_schema.tables p2 where p2.table_schema = 'answer_key' and p2.table_name = p1.table_name)
        loop
           query = 'insert into test_results(measure_name, test_name, passed) select ''' ||
 	     summary_table_name || ''', ''all_expected_found'', ' ||
@@ -47,9 +47,9 @@ BEGIN
 	         me.patient_id = a.patient_id and
                  me.effective_ipp is not distinct from a.effective_ipp and
                  me.effective_denom is not distinct from a.effective_denom and
-                 me.effective_denex is not distinct from a.effective_denex and
+                 (me.effective_denex is not distinct from a.effective_denex or me.effective_denex is null and a.effective_denex is false) and
                  me.effective_numer is not distinct from a.effective_numer and
-                 me.effective_denexcep is not distinct from a.effective_denexcep))';
+                 (me.effective_denexcep is not distinct from a.effective_denexcep or me.effective_denexcep is null and a.effective_denexcep is false)))';
 	  execute query;
        end loop;
    for summary_table_name in
@@ -74,3 +74,7 @@ language 'plpgsql';
 	     
 	     
 
+create or replace view patients_match as
+   select distinct x.measure_name,
+     not exists (select 1 from test_results y where y.measure_name = x.measure_name and y.passed = false) patients_match
+   from test_results x;
