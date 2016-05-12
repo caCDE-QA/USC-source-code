@@ -2,9 +2,10 @@
 
 db=cqm
 mydir=`dirname $0`
-usage="Usage: $0 [-d] [-j] [-n] [-s start] [-e end] [-H hqmf_schema] [-r result_schema] [-y year] [-u] db file"
+usage="Usage: $0 [-d] [-j] [-n] [-s start] [-e end] [-H hqmf_schema] [-r result_schema] [-y year] [-u] [-x] db file"
+xopt=
 
-while getopts "djns:e:H:r:y:u" option; do
+while getopts "djns:e:H:r:y:ux" option; do
     case $option in
 	d)
 	    dopt="-d"
@@ -35,6 +36,9 @@ while getopts "djns:e:H:r:y:u" option; do
 	    sopts="-s ${year}01010000"
 	    eopts="-e ${year}12312359"
 	    ;;
+	x)
+	    xopt="-x"
+	    ;;	
 	?)
 	    echo $usage;
 	    exit 1;
@@ -60,4 +64,4 @@ else
    export PYTHONPATH="$mypythonpath"
 fi
 
-python3 $mydir/hqmf2sqlv2.py $uopt $dopt $jopt $nopt $sopts $eopts $Hopts $ropts $db $file
+python3 $mydir/hqmf2sqlv2.py $uopt $dopt $jopt $nopt $sopts $eopts $Hopts $ropts $xopt $db $file

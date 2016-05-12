@@ -11,7 +11,7 @@ from sqlalchemy.sql.functions import *
 from datetime import datetime
 #from pathlib import Path
 
-usage="Usage:" + sys.argv[0] + "[-j] [-n] [-s start_time] [-e end_time] [-d] [-u] dbname infile"
+usage="Usage:" + sys.argv[0] + "[-j] [-n] [-s start_time] [-e end_time] [-d] [-u] [-x] dbname infile"
 
 DB_BASE_URL="postgresql+psycopg2:///"
 DEFAULT_HQMF_SCHEMA="hqmf_test"
@@ -31,6 +31,7 @@ def main(argv):
     parser.add_argument('-n', help="don't print sql", action='store_true')
     parser.add_argument('-d', help="debug", action='store_true')
     parser.add_argument('-u', help="ugly", action='store_true')
+    parser.add_argument('-x', help="skip exceptions", action='store_true')    
     parser.add_argument('-H', "--hqmf_schema", help="hqmf_schema", action="store", default=DEFAULT_HQMF_SCHEMA)
     parser.add_argument('-r', "--result_schema", help="result_schema", action="store", default=DEFAULT_RESULT_SCHEMA)
     parser.add_argument('-c', "--cohort_schema", help="cohort_schema", action="store", default=DEFAULT_COHORT_SCHEMA)
@@ -48,6 +49,7 @@ def main(argv):
     cohort_schema=ns.cohort_schema
     start_time=ns.start_time
     end_time=ns.end_time
+    skip_exceptions = False
     if ns.j:
         print_json = True
     if ns.n:
@@ -56,6 +58,8 @@ def main(argv):
         debug=True
     if ns.u:
         ugly=True
+    if ns.x:
+        skip_exceptions=True
     input = FileStream(infile, encoding='utf8')
     lexer = HQMFv2JSONLexer(input)
     stream = CommonTokenStream(lexer)
@@ -84,7 +88,7 @@ def main(argv):
     if debug:
         generator.print_debug()
     print("set search_path = " + result_schema + ";")
-    generator.generate_sql(not ugly)
+    generator.generate_sql(not ugly, skip_exceptions=skip_exceptions)
 
 if __name__ == '__main__':
     main(sys.argv)

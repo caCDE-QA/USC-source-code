@@ -875,7 +875,7 @@ class SQLGenerator:
             print("</p>")
 
 
-    def generate_sql(self, pretty=True):
+    def generate_sql(self, pretty=True, skip_exceptions=False):
         self.pretty = pretty
         self.symbol_table.create_base_query(self)
         cols=self.symbol_table.base_select.columns.values()
@@ -891,7 +891,11 @@ class SQLGenerator:
 #                        cols.append(psql)
                 else:
                     pop = ExtendedPopulationCriterion(pclist)
-                    psql = pop.to_sql(self.symbol_table)
+                    if skip_exceptions and pop.population_name() in ['denominatorExceptions', 'denominatorExclusions']:
+                        print("--skipping {popname}".format(popname = pop.population_name()))
+                        psql = None
+                    else:
+                        psql = pop.to_sql(self.symbol_table)
                     if psql != None:
                         cols.append(psql.label(pop.population_name()))
                         popnames.append(pop.population_name())
