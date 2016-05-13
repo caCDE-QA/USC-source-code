@@ -53,13 +53,14 @@ BEGIN
 	  execute query;
        end loop;
    for summary_table_name in
-       select distinct tablename from pg_tables p1 where schemaname = current_schema() and tablename like 'measure%patient_summary'
+       select distinct measure_name from hqmf_analysis.consort c join information_schema.tables t on t.table_name = c.measure_name and t.table_schema = current_schema()
        loop
 	  query = 'insert into measure_totals (measure_name, total_ipp, total_denom, total_numer, total_denex, total_denexcep) select ''' || summary_table_name || ''', sum(effective_ipp::integer), sum(effective_denom::integer), sum(effective_numer::integer), sum(effective_denex::integer), sum(effective_denexcep::integer) from ' || summary_table_name;
 	  execute query;
        end loop;
+
        insert into test_results(measure_name, test_name, passed)
-          select me.measure_name, '''totals_match''',
+          select me.measure_name, 'totals_match',
             exists (select 1 from answer_key.totals_key a where me.measure_name = a.measure_name and
 	       a.total_ipp is not distinct from me.total_ipp and
 	       ((a.total_denom is not distinct from me.total_denom) or (a.total_denom = 0 and me.total_denom is null)) and
@@ -76,5 +77,5 @@ language 'plpgsql';
 
 create or replace view patients_match as
    select distinct x.measure_name,
-     not exists (select 1 from test_results y where y.measure_name = x.measure_name and y.passed = false) patients_match
+     not exists (select 1 from test_results y where y.measure_name = x.measure_name and y.test_name != 'totals_match' and y.passed = false) patients_match
    from test_results x;

@@ -32,3 +32,4 @@ create view patient_characteristic_clinical_trial_participant as select * from i
 create view patient_characteristic_expired as select * from individual_characteristic;
 
 create view intervention_order as select * from intervention_ordered;
+create view encounter_order as select * from encounter;

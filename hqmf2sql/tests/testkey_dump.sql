@@ -3400,21 +3400,6 @@ CREATE VIEW measure_90_0_patient_summary AS
 
 
 --
--- Name: measure_totals; Type: TABLE; Schema: answer_key; Owner: -; Tablespace: 
---
-
-CREATE TABLE measure_totals (
-    test_time timestamp without time zone,
-    measure_name text,
-    total_ipp integer,
-    total_denom integer,
-    total_denex integer,
-    total_numer integer,
-    total_denexcep integer
-);
-
-
---
 -- Name: totals_key; Type: TABLE; Schema: answer_key; Owner: -; Tablespace: 
 --
 
@@ -4823,33 +4808,6 @@ t	t	f	t	f	f	Perez	Shannon	1947-01-03	F	http://cypress-demo.isi.edu/patients/560e
 
 
 --
--- Data for Name: measure_totals; Type: TABLE DATA; Schema: answer_key; Owner: -
---
-
-COPY measure_totals (test_time, measure_name, total_ipp, total_denom, total_denex, total_numer, total_denexcep) FROM stdin;
-2016-05-06 01:20:57.336564	measure_132_0_patient_summary	2	2	0	1	\N
-2016-05-06 01:20:57.336564	measure_124_0_patient_summary	10	10	0	1	\N
-2016-05-06 01:20:57.336564	measure_163_0_patient_summary	3	3	\N	2	\N
-2016-05-06 01:20:57.336564	measure_139_0_patient_summary	8	8	\N	1	\N
-2016-05-06 01:20:57.336564	measure_74_0_patient_summary	15	15	\N	1	\N
-2016-05-06 01:20:57.336564	measure_177_0_patient_summary	2	2	\N	1	\N
-2016-05-06 01:20:57.336564	measure_90_0_patient_summary	4	4	1	1	\N
-2016-05-06 01:20:57.336564	measure_133_0_patient_summary	2	2	0	1	\N
-2016-05-06 01:20:57.336564	measure_161_0_patient_summary	3	3	\N	1	\N
-2016-05-06 01:20:57.336564	measure_131_0_patient_summary	3	3	\N	2	\N
-2016-05-06 01:20:57.336564	measure_130_0_patient_summary	6	6	0	1	\N
-2016-05-06 01:20:57.336564	measure_77_0_patient_summary	2	2	\N	1	\N
-2016-05-06 01:20:57.336564	measure_164_0_patient_summary	3	3	\N	2	\N
-2016-05-06 01:20:57.336564	measure_125_0_patient_summary	5	5	0	1	\N
-2016-05-06 01:20:57.336564	measure_75_0_patient_summary	15	15	\N	1	\N
-2016-05-06 01:20:57.336564	measure_127_0_patient_summary	6	6	\N	1	\N
-2016-05-06 01:20:57.336564	measure_167_0_patient_summary	2	2	\N	1	0
-2016-05-06 01:20:57.336564	measure_143_0_patient_summary	2	2	\N	1	0
-2016-05-06 03:16:09.258783	measure_148_0_patient_summary	3	3	\N	2	\N
-\.
-
-
---
 -- Data for Name: patient_xref; Type: TABLE DATA; Schema: answer_key; Owner: -
 --
 
@@ -4903,7 +4861,6 @@ COPY patient_xref (patient_id, lastname, firstname) FROM stdin;
 --
 
 COPY totals_key (cms_name, total_ipp, total_denom, total_denex, total_numer, total_denexcep, long_name, relative_url, measure_name) FROM stdin;
-cms146v4	3	3	1	1	\N	CMS146v4/0002 - Appropriate Testing for Children with Pharyngitis	/product_tests/560e0fe2637970313e000008/measures/55c40dec2ae4dcb7a39b2721	measure_146_0_patient_summary
 cms137v4	2	2	0	1	\N	CMS137v4/0004 - Initiation and Engagement of Alcohol and Other Drug Dependence Treatment- Treatment	/product_tests/560e0fe2637970313e000008/measures/55c40dec2ae4dcb7a39b2712	measure_137_0_patient_summary
 cms137v4	2	2	0	0	\N	CMS137v4/0004 - Initiation and Engagement of Alcohol and Other Drug Dependence Treatment- Treatment w/ AOD	/product_tests/560e0fe2637970313e000008/measures/55c40dec2ae4dcb7a39b2713	measure_137_1_patient_summary
 cms137v4	0	0	0	0	\N	CMS137v4/0004 - Initiation and Engagement of Alcohol and Other Drug Dependence Treatment- Treatment, RS1: 13-17	/product_tests/560e0fe2637970313e000008/measures/55c40dec2ae4dcb7a39b2714	measure_137_2_patient_summary
@@ -4945,7 +4902,6 @@ cms148v4	3	3	\N	2	\N	CMS148v4/0060 - Hemoglobin A1c Test for Pediatric Patients	
 cms134v4	3	3	\N	2	\N	CMS134v4/0062 - Diabetes: Urine Protein Screening	/product_tests/560e0fe2637970313e000008/measures/55c40dec2ae4dcb7a39b270e	measure_134_0_patient_summary
 cms163v4	3	3	\N	2	\N	CMS163v4/0064 - Diabetes: Low Density Lipoprotein (LDL) Management	/product_tests/560e0fe2637970313e000008/measures/55c40ded2ae4dcb7a39b273b	measure_163_0_patient_summary
 cms164v4	3	3	\N	2	\N	CMS164v4/0068 - Ischemic Vascular Disease (IVD): Use of Aspirin or Another Antithrombotic	/product_tests/560e0fe2637970313e000008/measures/55c40ded2ae4dcb7a39b273c	measure_164_0_patient_summary
-cms154v4	3	3	1	1	\N	CMS154v4/0069 - Appropriate Treatment for Children with Upper Respiratory Infection (URI)	/product_tests/560e0fe2637970313e000008/measures/55c40ded2ae4dcb7a39b2728	measure_154_0_patient_summary
 cms145v4	3	3	\N	2	0	CMS145v4/0070 - Coronary Artery Disease (CAD): Beta-Blocker Therapy-Prior Myocardial Infarction (MI) or Left Ventricular Systolic Dysfunction (LVEF40%)- LVSD	/product_tests/560e0fe2637970313e000008/measures/55c40dec2ae4dcb7a39b271f	measure_145_0_patient_summary
 cms145v4	3	0	\N	0	0	CMS145v4/0070 - Coronary Artery Disease (CAD): Beta-Blocker Therapy-Prior Myocardial Infarction (MI) or Left Ventricular Systolic Dysfunction (LVEF40%)- prior MI	/product_tests/560e0fe2637970313e000008/measures/55c40dec2ae4dcb7a39b2720	measure_145_1_patient_summary
 cms182v5	3	3	\N	2	\N	CMS182v5/0075 - Ischemic Vascular Disease (IVD): Complete Lipid Panel and LDL Control- Complete Lipid Profile	/product_tests/560e0fe2637970313e000008/measures/55c40ded2ae4dcb7a39b2743	measure_182_0_patient_summary
@@ -4956,13 +4912,11 @@ cms143v4	2	2	\N	1	0	CMS143v4/0086 - Primary Open-Angle Glaucoma (POAG): Optic Ne
 cms167v4	2	2	\N	1	0	CMS167v4/0088 - Diabetic Retinopathy: Documentation of Presence or Absence of Macular Edema and Level of Severity of Retinopathy	/product_tests/560e0fe2637970313e000008/measures/55c40ded2ae4dcb7a39b273f	measure_167_0_patient_summary
 cms142v4	2	2	\N	1	0	CMS142v4/0089 - Diabetic Retinopathy: Communication with the Physician Managing Ongoing Diabetes Care	/product_tests/560e0fe2637970313e000008/measures/55c40dec2ae4dcb7a39b271c	measure_142_0_patient_summary
 cms139v4	8	8	\N	1	0	CMS139v4/0101 - Falls: Screening for Future Fall Risk	/product_tests/560e0fe2637970313e000008/measures/55c40dec2ae4dcb7a39b2719	measure_139_0_patient_summary
-cms161v4	3	3	\N	1	\N	CMS161v4/0104 - Adult Major Depressive Disorder (MDD): Suicide Risk Assessment	/product_tests/560e0fe2637970313e000008/measures/55c40ded2ae4dcb7a39b273a	measure_161_0_patient_summary
 cms128v4	2	2	0	1	\N	CMS128v4/0105 - Anti-depressant Medication Management- 84 days	/product_tests/560e0fe2637970313e000008/measures/55c40dec2ae4dcb7a39b2707	measure_128_0_patient_summary
 cms128v4	2	2	0	0	\N	CMS128v4/0105 - Anti-depressant Medication Management- 180 days	/product_tests/560e0fe2637970313e000008/measures/55c40dec2ae4dcb7a39b2708	measure_128_1_patient_summary
 cms136v5	2	2	1	1	\N	CMS136v5/0108 - ADHD: Follow-Up Care for Children Prescribed Attention-Deficit/Hyperactivity Disorder (ADHD) Medication- Visit within 30 days	/product_tests/560e0fe2637970313e000008/measures/55c40dec2ae4dcb7a39b2710	measure_136_0_patient_summary
 cms136v5	0	0	0	0	\N	CMS136v5/0108 - ADHD: Follow-Up Care for Children Prescribed Attention-Deficit/Hyperactivity Disorder (ADHD) Medication- Visit with 2+ followups	/product_tests/560e0fe2637970313e000008/measures/55c40dec2ae4dcb7a39b2711	measure_136_1_patient_summary
 cms169v4	2	2	\N	1	\N	CMS169v4/0110 - Bipolar Disorder and Major Depression: Appraisal for alcohol or chemical substance use	/product_tests/560e0fe2637970313e000008/measures/55c40ded2ae4dcb7a39b2740	measure_169_0_patient_summary
-cms157v4	3	3	\N	1	\N	CMS157v4/0384 - Oncology: Medical and Radiation - Pain Intensity Quantified	/product_tests/560e0fe2637970313e000008/measures/55c40ded2ae4dcb7a39b2734	measure_157_0_patient_summary
 cms141v5	3	3	\N	1	0	CMS141v5/0385 - Colon Cancer: Chemotherapy for AJCC Stage III Colon Cancer Patients	/product_tests/560e0fe2637970313e000008/measures/55c40dec2ae4dcb7a39b271b	measure_141_0_patient_summary
 cms140v4	2	2	\N	1	0	CMS140v4/0387 - Breast Cancer: Hormonal Therapy for Stage IC-IIIC Estrogen Receptor/Progesterone Receptor (ER/PR) Positive Breast Cancer	/product_tests/560e0fe2637970313e000008/measures/55c40dec2ae4dcb7a39b271a	measure_140_0_patient_summary
 cms129v5	3	3	\N	1	0	CMS129v5/0389 - Prostate Cancer: Avoidance of Overuse of Bone Scan for Staging Low Risk Prostate Cancer Patients	/product_tests/560e0fe2637970313e000008/measures/55c40dec2ae4dcb7a39b2709	measure_129_0_patient_summary
@@ -4971,17 +4925,13 @@ cms52v4	2	2	\N	1	0	CMS52v4/0405 - HIV/AIDS: Pneumocystis Jiroveci Pneumonia (PCP
 cms52v4	0	0	\N	0	0	CMS52v4/0405 - HIV/AIDS: Pneumocystis Jiroveci Pneumonia (PCP) Prophylaxis- 1-5 years	/product_tests/560e0fe2637970313e000008/measures/55c40ded2ae4dcb7a39b2749	measure_52_1_patient_summary
 cms52v4	0	0	\N	0	\N	CMS52v4/0405 - HIV/AIDS: Pneumocystis Jiroveci Pneumonia (PCP) Prophylaxis- 6 weeks to 1 year	/product_tests/560e0fe2637970313e000008/measures/55c40ded2ae4dcb7a39b274a	measure_52_2_patient_summary
 cms2v5	28	28	4	1	0	CMS2v5/0418 - Preventive Care and Screening: Screening for Clinical Depression and Follow-Up Plan	/product_tests/560e0fe2637970313e000008/measures/55c40ded2ae4dcb7a39b2746	measure_2_0_patient_summary
-cms68v5	47	47	\N	1	1	CMS68v5/0419 - Documentation of Current Medications in the Medical Record	/product_tests/560e0fe2637970313e000008/measures/55c40ded2ae4dcb7a39b2755	measure_68_0_patient_summary
 cms69v4	18	18	2	1	\N	CMS69v4/0421 - Preventive Care and Screening: Body Mass Index (BMI) Screening and Follow-Up Plan- 18-64	/product_tests/560e0fe2637970313e000008/measures/55c40ded2ae4dcb7a39b2756	measure_69_0_patient_summary
 cms69v4	6	6	0	0	\N	CMS69v4/0421 - Preventive Care and Screening: Body Mass Index (BMI) Screening and Follow-Up Plan- 65+	/product_tests/560e0fe2637970313e000008/measures/55c40ded2ae4dcb7a39b2757	measure_69_1_patient_summary
-cms132v4	2	2	0	1	\N	CMS132v4/0564 - Cataracts: Complications within 30 Days Following Cataract Surgery Requiring Additional Surgical Procedures	/product_tests/560e0fe2637970313e000008/measures/55c40dec2ae4dcb7a39b270c	measure_132_0_patient_summary
-cms133v4	2	2	0	1	\N	CMS133v4/0565 - Cataracts: 20/40 or Better Visual Acuity within 90 Days Following Cataract Surgery	/product_tests/560e0fe2637970313e000008/measures/55c40dec2ae4dcb7a39b270d	measure_133_0_patient_summary
 cms158v4	3	3	\N	2	0	CMS158v4/0608 - Pregnant women that had HBsAg testing	/product_tests/560e0fe2637970313e000008/measures/55c40ded2ae4dcb7a39b2735	measure_158_0_patient_summary
 cms159v4	2	2	0	1	\N	CMS159v4/0710 - Depression Remission at Twelve Months	/product_tests/560e0fe2637970313e000008/measures/55c40ded2ae4dcb7a39b2736	measure_159_0_patient_summary
 cms160v4	3	3	0	2	\N	CMS160v4/0712 - Depression Utilization of the PHQ-9 Tool- Sep-Dec	/product_tests/560e0fe2637970313e000008/measures/55c40ded2ae4dcb7a39b2737	measure_160_0_patient_summary
 cms160v4	2	2	0	0	\N	CMS160v4/0712 - Depression Utilization of the PHQ-9 Tool- May-Aug	/product_tests/560e0fe2637970313e000008/measures/55c40ded2ae4dcb7a39b2738	measure_160_1_patient_summary
 cms160v4	1	1	0	0	\N	CMS160v4/0712 - Depression Utilization of the PHQ-9 Tool- Jan-Apr	/product_tests/560e0fe2637970313e000008/measures/55c40ded2ae4dcb7a39b2739	measure_160_2_patient_summary
-cms177v4	3	3	\N	1	\N	CMS177v4/1365 - Child and Adolescent Major Depressive Disorder (MDD): Suicide Risk Assessment	/product_tests/560e0fe2637970313e000008/measures/55c40ded2ae4dcb7a39b2741	measure_177_0_patient_summary
 cms82v3	3	3	\N	2	\N	CMS82v3/1401 - Maternal Depression Screening	/product_tests/560e0fe2637970313e000008/measures/55c40ded2ae4dcb7a39b275e	measure_82_0_patient_summary
 cms22v4	26	26	4	1	0	CMS22v4/BPScreen - Preventive Care and Screening: Screening for High Blood Pressure and Follow-Up Documented	/product_tests/560e0fe2637970313e000008/measures/55c40ded2ae4dcb7a39b2745	measure_22_0_patient_summary
 cms75v4	15	15	\N	1	\N	CMS75v4/ChildDentalDecay - Children Who Have Dental Decay or Cavities	/product_tests/560e0fe2637970313e000008/measures/55c40ded2ae4dcb7a39b275c	measure_75_0_patient_summary
@@ -5002,6 +4952,14 @@ cms74v5	15	15	\N	1	\N	CMS74v5/PrimaryCariesPrevention - Primary Caries Preventio
 cms74v5	5	5	\N	0	\N	CMS74v5/PrimaryCariesPrevention - Primary Caries Prevention Intervention as Offered by Primary Care Providers, including Dentists- RS1:=5	/product_tests/560e0fe2637970313e000008/measures/55c40ded2ae4dcb7a39b2759	measure_74_1_patient_summary
 cms74v5	6	6	\N	1	\N	CMS74v5/PrimaryCariesPrevention - Primary Caries Prevention Intervention as Offered by Primary Care Providers, including Dentists- RS2: 6-12	/product_tests/560e0fe2637970313e000008/measures/55c40ded2ae4dcb7a39b275a	measure_74_2_patient_summary
 cms74v5	4	4	\N	0	\N	CMS74v5/PrimaryCariesPrevention - Primary Caries Prevention Intervention as Offered by Primary Care Providers, including Dentists- RS3: 13-20	/product_tests/560e0fe2637970313e000008/measures/55c40ded2ae4dcb7a39b275b	measure_74_3_patient_summary
+cms146v4	3	3	1	1	\N	CMS146v4/0002 - Appropriate Testing for Children with Pharyngitis	/product_tests/560e0fe2637970313e000008/measures/55c40dec2ae4dcb7a39b2721	measure_146_0_event_summary
+cms154v4	3	3	1	1	\N	CMS154v4/0069 - Appropriate Treatment for Children with Upper Respiratory Infection (URI)	/product_tests/560e0fe2637970313e000008/measures/55c40ded2ae4dcb7a39b2728	measure_154_0_event_summary
+cms161v4	3	3	\N	1	\N	CMS161v4/0104 - Adult Major Depressive Disorder (MDD): Suicide Risk Assessment	/product_tests/560e0fe2637970313e000008/measures/55c40ded2ae4dcb7a39b273a	measure_161_0_event_summary
+cms157v4	3	3	\N	1	\N	CMS157v4/0384 - Oncology: Medical and Radiation - Pain Intensity Quantified	/product_tests/560e0fe2637970313e000008/measures/55c40ded2ae4dcb7a39b2734	measure_157_0_event_summary
+cms68v5	47	47	\N	1	1	CMS68v5/0419 - Documentation of Current Medications in the Medical Record	/product_tests/560e0fe2637970313e000008/measures/55c40ded2ae4dcb7a39b2755	measure_68_0_event_summary
+cms132v4	2	2	0	1	\N	CMS132v4/0564 - Cataracts: Complications within 30 Days Following Cataract Surgery Requiring Additional Surgical Procedures	/product_tests/560e0fe2637970313e000008/measures/55c40dec2ae4dcb7a39b270c	measure_132_0_event_summary
+cms133v4	2	2	0	1	\N	CMS133v4/0565 - Cataracts: 20/40 or Better Visual Acuity within 90 Days Following Cataract Surgery	/product_tests/560e0fe2637970313e000008/measures/55c40dec2ae4dcb7a39b270d	measure_133_0_event_summary
+cms177v4	3	3	\N	1	\N	CMS177v4/1365 - Child and Adolescent Major Depressive Disorder (MDD): Suicide Risk Assessment	/product_tests/560e0fe2637970313e000008/measures/55c40ded2ae4dcb7a39b2741	measure_177_0_event_summary
 \.
 
 

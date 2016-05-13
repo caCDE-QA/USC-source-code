@@ -878,10 +878,11 @@ class SQLGenerator:
     def generate_sql(self, pretty=True, skip_exceptions=False):
         self.pretty = pretty
         self.symbol_table.create_base_query(self)
-        cols=self.symbol_table.base_select.columns.values()
         popnum = 0
         for pcsection in self.measure.populations:
+            print("---found pcsection " + str(popnum))
             popnames = []
+            cols=self.symbol_table.base_select.columns.values()            
             for pclist in pcsection.population_criteria.values():
                 if isinstance(pclist, list):
                     pass
@@ -904,11 +905,33 @@ class SQLGenerator:
 #               print(sql_to_string(query))
                 print(self.result_util.create_view(self.viewname_all(popnum), query, pretty))
                 self.create_patient_summary_table(popnames, popnum)
+                index_name = self.find_index_colname(cols)                
+                if index_name != None:
+                    self.create_event_summary_table(popnames, popnum, index_name)
                 popnum = popnum+1
 
+    def find_index_colname(self, cols):
+        # quick and dirty version -- should really do this while building measure population
+        index_col = None
+        for c in cols:
+            if c.name.endswith('audit_key_value'):
+                if index_col is not None:
+                    print("--multiple possibilities for index col")
+                    return None
+                index_col = c
+        if index_col is None:
+            return None
+        return index_col.name
+
     def create_patient_summary_table(self, popnames, popnum):
-        result_table = Table('measure_' + self.measure_name() + '_' + str(popnum) + '_patient_summary', self.db.meta,
-                             Column('patient_id', Integer),
+        self.create_summary_table(popnames, popnum, '_patient_summary', 'base_patient_id', 'patient_id')
+
+    def create_event_summary_table(self, popnames, popnum, index_name):
+        self.create_summary_table(popnames, popnum, '_event_summary', index_name, 'event_id')        
+                
+    def create_summary_table(self, popnames, popnum, view_suffix, window_colname, window_label):
+        result_table = Table('measure_' + self.measure_name() + '_' + str(popnum) + view_suffix, self.db.meta,
+                             Column(window_label, Integer),
                              Column('effective_ipp', Boolean),
                              Column('effective_denom', Boolean),
                              Column('effective_denex', Boolean),
@@ -919,9 +942,9 @@ class SQLGenerator:
         print(str(CreateTable(result_table, bind=self.db.engine)))
         print(self.result_util.statement_terminator())
 
-        popquery = self.make_popquery(popnames, popnum)
+        popquery = self.make_popquery(popnames, popnum, view_suffix, window_colname, window_label)
         ins = result_table.insert().from_select([
-                'patient_id',
+                window_label,
                 'effective_ipp',
                 'effective_denom',
                 'effective_denex',
@@ -933,7 +956,7 @@ class SQLGenerator:
     def constant_string(self, str):
         return cast(str, String(256))
 
-    def make_popquery(self, popnames, popnum):
+    def make_popquery(self, popnames, popnum, view_suffix, window_colname, window_label):
         cdict = dict()
         self.make_ipp_col(popnames, cdict)
         self.make_denom_col(popnames, cdict)
@@ -944,8 +967,8 @@ class SQLGenerator:
         fromview = text(self.result_util.qualified_artifact_name(self.viewname_all(popnum)))
         basename = self.measure_name() + '_' + str(popnum)
 
-        viewname = basename + '_patient_summary'
-        patient_col = column('base_patient_id')
+        viewname = basename + view_suffix
+        window_col = column(window_colname)
 
         order_cols=[]
         for key in ['denominatorExclusions', 'numerator', 'denominatorExceptions', 'denominator']:
@@ -959,7 +982,7 @@ class SQLGenerator:
             cdict['STRAT'] = cast(null(), Boolean)
 
         summary_cols = [
-            patient_col.label('patient_id'),
+            window_col.label(window_label),
             cdict.get('initialPopulation').label('effective_ipp'),
             cdict.get('denominator').label('effective_denom'),
             cdict.get('denominatorExclusions').label('effective_denex'),
@@ -967,11 +990,12 @@ class SQLGenerator:
             cdict.get('denominatorExceptions').label('effective_denexcep'),
             ]
 
-        rowcol = func.rank().over(partition_by=patient_col, order_by = order_cols)
+        rowcol = func.rank().over(partition_by=window_col, order_by = order_cols)
         summary_cols.append(rowcol.label('rank'))
         base = select(summary_cols).select_from(fromview).where(cdict.get('initialPopulation')).alias()
+        print("---window_colname is " + str(window_colname))
         query=select([
-                base.c.patient_id,
+                base.c.get(window_label),
                 base.c.effective_ipp,
                 base.c.effective_denom,
                 base.c.effective_denex,

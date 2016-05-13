@@ -43,8 +43,8 @@ from (select patient_number, json_array_elements(events) events from patient_dat
 
 alter table event_base add primary key(event_id);
 
-create or replace view event as select
-   b.event_id,
+create table event as select
+   min(b.event_id) event_id,
    b.patient_number,
    b.event->>'classCode' classCode,
    b.event->>'event_type' event_type,
@@ -60,8 +60,8 @@ create or replace view event as select
    b.event->'value'->>'code' value_code,
    b.event->'value'->>'codeSystem' value_codesystem,
    b.event->'value'->>'type' value_type,
-   b.event->'value'->'translation' value_translation,
-   b.event->'value'->'unit' value_unit,
+   cast(b.event->'value'->'translation' as text) value_translation,
+   b.event->'value'->>'unit' value_unit,
    (b.event->'value'->>'value')::numeric value_numeric,
    b.event->'dischargeDispositionCode'->>'code' discharge_disposition_code,
    b.event->'dischargeDispositionCode'->>'codeSystem' discharge_disposition_codesystem,
@@ -71,7 +71,35 @@ create or replace view event as select
    b.event->'targetSiteCode'->>'codeSystem' target_site_codesystem,
    b.event->'priorityCode'->>'code' priority_code,
    b.event->'priorityCode'->>'codeSystem' priority_codesystem
-from (select *, json_array_elements(event->'codes') codes from event_base) b;
+from (select *, json_array_elements(event->'codes') codes from event_base) b
+group by
+   b.patient_number,
+   b.event->>'classCode',
+   b.event->>'event_type',
+   b.event->>'moodCode',
+   b.event->>'status_code',
+   b.event->>'text',
+   expand_timestamp(b.event->'start_time'),
+   expand_timestamp(b.event->'end_time'),
+   expand_timestamp(b.event->'effective_time'),
+   (b.event->>'negationInd')::boolean,
+   codes->>'code',
+   codes->>'codeSystem',
+   b.event->'value'->>'code',
+   b.event->'value'->>'codeSystem',
+   b.event->'value'->>'type',
+   cast(b.event->'value'->'translation' as text),
+   b.event->'value'->>'unit',
+   (b.event->'value'->>'value')::numeric,
+   b.event->'dischargeDispositionCode'->>'code',
+   b.event->'dischargeDispositionCode'->>'codeSystem',
+   b.event->'routeCode'->>'code',
+   b.event->'routeCode'->>'codeSystem',
+   b.event->'targetSiteCode'->>'code',
+   b.event->'targetSiteCode'->>'codeSystem',
+   b.event->'priorityCode'->>'code',
+   b.event->'priorityCode'->>'codeSystem'
+;
 
 create or replace view event_templates as 
   select event_id, array_agg(t) template_ids
