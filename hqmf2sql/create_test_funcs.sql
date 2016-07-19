@@ -72,6 +72,11 @@ BEGIN
    for result_table_name in
        select distinct c.table_name from hqmf_analysis.consort c join information_schema.tables t on t.table_name = c.table_name and t.table_schema = current_schema()
        loop
+          select c.measure, c.population
+	  from hqmf_analysis.consort c
+	  where c.table_name = result_table_name
+	  into measure, population;
+
    	  query = 'insert into measure_totals (measure, population, result_table_name, total_ipp, total_denom, total_numer, total_denex, total_denexcep) select ''' || measure || ''', ' || population || ', ''' || result_table_name || ''', sum(effective_ipp::integer), sum(effective_denom::integer), sum(effective_numer::integer), sum(effective_denex::integer), sum(effective_denexcep::integer) from ' || result_table_name;
    	  execute query;
        end loop;
