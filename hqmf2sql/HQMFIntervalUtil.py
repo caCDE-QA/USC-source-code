@@ -1,5 +1,6 @@
 from sqlalchemy.dialects.postgresql import INTERVAL
-from sqlalchemy.dialects import postgres
+#from sqlalchemy.dialects import postgres
+from sqlalchemy.dialects import postgresql
 from sqlalchemy.types import TypeDecorator
 import HQMFUtil
 import sqlparse
@@ -13,7 +14,8 @@ class HQMFIntervalType(TypeDecorator):
 class HQMFIntervalUtil:
     @staticmethod
     def get_dialect():
-        return postgres.dialect()
+#        return postgres.dialect()
+        return postgresql.dialect()
 
 class HQMFResultUtil:
     def __init__(self, schema, cohort_schema=None):

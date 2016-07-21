@@ -36,10 +36,10 @@ BEGIN
    for result_table_name in
        select distinct table_name from information_schema.tables p1 where table_schema = current_schema() and table_name like 'measure%patient_summary'
        loop
-          select c.measure, regexp_replace(x.table_name, '_event_summary', '_patient_summary'), x.pop
+          select c.measure, regexp_replace(x.table_name, '_event_summary', '_patient_summary'), x.pop	  
 	  from hqmf_analysis.consort c
 	  join answer_key.measure_pop_xref x on x.measure = c.measure and x.pop = c.population
-	  where c.table_name = result_table_name
+	  where regexp_replace(c.table_name, '_event_summary', '_patient_summary') = result_table_name
 	  into measure,
 	  answer_table_name, population;
 

@@ -3543,12 +3543,12 @@ COPY measure_126_4 (ipp, denom, denex, numer, denexcep, "out", lastname, firstna
 --
 
 COPY measure_127_0 (ipp, denom, denex, numer, denexcep, "out", lastname, firstname, dob, gender, patient_url) FROM stdin;
-t	t	f	f	f	t	Baldwin	Jeremy	1944-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e000270
-t	t	f	f	f	t	Doyle	Wanda	1939-01-02	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e0002c0
-t	t	f	f	f	t	Hayes	Philip	1944-02-02	M	http://cypress-demo.isi.edu/patients/560e0fe6637970313e0003cc
-t	t	f	f	f	t	Mack	Jesus	1947-01-03	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e0000a2
-t	t	f	f	f	t	Nelson	Jacob	1944-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e0000ed
-t	t	f	t	f	f	Perez	Shannon	1947-01-03	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e000216
+t	t	\N	f	\N	t	Baldwin	Jeremy	1944-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e000270
+t	t	\N	f	\N	t	Doyle	Wanda	1939-01-02	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e0002c0
+t	t	\N	f	\N	t	Hayes	Philip	1944-02-02	M	http://cypress-demo.isi.edu/patients/560e0fe6637970313e0003cc
+t	t	\N	f	\N	t	Mack	Jesus	1947-01-03	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e0000a2
+t	t	\N	f	\N	t	Nelson	Jacob	1944-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e0000ed
+t	t	\N	t	\N	f	Perez	Shannon	1947-01-03	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e000216
 \.
 
 
@@ -3577,9 +3577,9 @@ t	t	f	f	f	t	Ramirez	Eugene	1992-02-01	M	http://cypress-demo.isi.edu/patients/560
 --
 
 COPY measure_129_0 (ipp, denom, denex, numer, denexcep, "out", lastname, firstname, dob, gender, patient_url) FROM stdin;
-t	t	f	t	f	f	Lee	John	1989-08-01	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e000173
-t	t	f	f	f	t	Singleton	Jimmy	1989-08-01	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e00004c
-t	t	f	f	f	t	Stephens	Miguel	1989-08-04	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e00036c
+t	t	\N	t	f	f	Lee	John	1989-08-01	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e000173
+t	t	\N	f	f	t	Singleton	Jimmy	1989-08-01	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e00004c
+t	t	\N	f	f	t	Stephens	Miguel	1989-08-04	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e00036c
 \.
 
 
@@ -3613,8 +3613,8 @@ t	t	f	t	f	f	Potter	Gail	1984-02-01	F	http://cypress-demo.isi.edu/patients/560e0f
 --
 
 COPY measure_132_0 (ipp, denom, denex, numer, denexcep, "out", lastname, firstname, dob, gender, patient_url) FROM stdin;
-t	t	f	t	f	f	Mullins	Howard	1943-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e0001b9
-t	t	f	f	f	t	Zimmerman	Glen	1943-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e000080
+t	t	f	t	\N	f	Mullins	Howard	1943-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e0001b9
+t	t	f	f	\N	t	Zimmerman	Glen	1943-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e000080
 \.
 
 
@@ -3623,8 +3623,8 @@ t	t	f	f	f	t	Zimmerman	Glen	1943-02-01	M	http://cypress-demo.isi.edu/patients/560
 --
 
 COPY measure_133_0 (ipp, denom, denex, numer, denexcep, "out", lastname, firstname, dob, gender, patient_url) FROM stdin;
-t	t	f	t	f	f	Mullins	Howard	1943-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e0001b9
-t	t	f	f	f	t	Zimmerman	Glen	1943-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e000080
+t	t	f	t	\N	f	Mullins	Howard	1943-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e0001b9
+t	t	f	f	\N	t	Zimmerman	Glen	1943-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e000080
 \.
 
 
@@ -3806,8 +3806,8 @@ t	t	f	f	f	t	Zimmerman	Glen	1943-02-01	M	http://cypress-demo.isi.edu/patients/560
 --
 
 COPY measure_143_0 (ipp, denom, denex, numer, denexcep, "out", lastname, firstname, dob, gender, patient_url) FROM stdin;
-t	t	f	t	f	f	Mullins	Howard	1943-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e0001b9
-t	t	f	f	f	t	Zimmerman	Glen	1943-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e000080
+t	t	\N	t	f	f	Mullins	Howard	1943-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e0001b9
+t	t	\N	f	f	t	Zimmerman	Glen	1943-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e000080
 \.
 
 
@@ -3852,9 +3852,9 @@ t	f	f	f	f	f	Nelson	Jacob	1944-02-01	M	http://cypress-demo.isi.edu/patients/560e0
 --
 
 COPY measure_146_0 (ipp, denom, denex, numer, denexcep, "out", lastname, firstname, dob, gender, patient_url) FROM stdin;
-t	t	t	f	f	f	Barnes	Janet	2003-02-01	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e0002de
-t	t	f	f	f	t	Jordan	Sherri	1997-02-01	F	http://cypress-demo.isi.edu/patients/560e0fe4637970313e0000b8
-t	t	f	t	f	f	Smith	Esther	1997-02-01	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e00023d
+t	t	t	f	\N	f	Barnes	Janet	2003-02-01	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e0002de
+t	t	f	f	\N	t	Jordan	Sherri	1997-02-01	F	http://cypress-demo.isi.edu/patients/560e0fe4637970313e0000b8
+t	t	f	t	\N	f	Smith	Esther	1997-02-01	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e00023d
 \.
 
 
@@ -3918,11 +3918,11 @@ t	t	f	t	f	f	Perez	Shannon	1947-01-03	F	http://cypress-demo.isi.edu/patients/560e
 --
 
 COPY measure_153_0 (ipp, denom, denex, numer, denexcep, "out", lastname, firstname, dob, gender, patient_url) FROM stdin;
-t	t	f	f	f	t	Harrington	Pamela	1990-12-01	F	http://cypress-demo.isi.edu/patients/560e0fe4637970313e000107
-t	t	t	f	f	f	Jordan	Sherri	1997-02-01	F	http://cypress-demo.isi.edu/patients/560e0fe4637970313e0000b8
-t	t	f	f	f	t	Mccarthy	Catherine	1990-11-28	F	http://cypress-demo.isi.edu/patients/560e0fe6637970313e0003de
-t	t	f	f	f	t	Richardson	Juanita	1990-12-01	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e000296
-t	t	f	t	f	f	Smith	Esther	1997-02-01	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e00023d
+t	t	f	f	\N	t	Harrington	Pamela	1990-12-01	F	http://cypress-demo.isi.edu/patients/560e0fe4637970313e000107
+t	t	t	f	\N	f	Jordan	Sherri	1997-02-01	F	http://cypress-demo.isi.edu/patients/560e0fe4637970313e0000b8
+t	t	f	f	\N	t	Mccarthy	Catherine	1990-11-28	F	http://cypress-demo.isi.edu/patients/560e0fe6637970313e0003de
+t	t	f	f	\N	t	Richardson	Juanita	1990-12-01	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e000296
+t	t	f	t	\N	f	Smith	Esther	1997-02-01	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e00023d
 \.
 
 
@@ -3952,9 +3952,9 @@ t	t	f	f	f	t	Richardson	Juanita	1990-12-01	F	http://cypress-demo.isi.edu/patients
 --
 
 COPY measure_154_0 (ipp, denom, denex, numer, denexcep, "out", lastname, firstname, dob, gender, patient_url) FROM stdin;
-t	t	t	f	f	f	Barnes	Janet	2003-02-01	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e0002de
-t	t	f	f	f	t	Jordan	Sherri	1997-02-01	F	http://cypress-demo.isi.edu/patients/560e0fe4637970313e0000b8
-t	t	f	t	f	f	Smith	Esther	1997-02-01	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e00023d
+t	t	t	f	\N	f	Barnes	Janet	2003-02-01	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e0002de
+t	t	f	f	\N	t	Jordan	Sherri	1997-02-01	F	http://cypress-demo.isi.edu/patients/560e0fe4637970313e0000b8
+t	t	f	t	\N	f	Smith	Esther	1997-02-01	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e00023d
 \.
 
 
@@ -4095,12 +4095,12 @@ t	t	f	f	f	t	Smith	Esther	1997-02-01	F	http://cypress-demo.isi.edu/patients/560e0
 --
 
 COPY measure_156_0 (ipp, denom, denex, numer, denexcep, "out", lastname, firstname, dob, gender, patient_url) FROM stdin;
-t	t	f	f	f	t	Baldwin	Jeremy	1944-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e000270
-t	t	f	f	f	t	Doyle	Wanda	1939-01-02	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e0002c0
-t	t	f	f	f	t	Hayes	Philip	1944-02-02	M	http://cypress-demo.isi.edu/patients/560e0fe6637970313e0003cc
-t	t	f	f	f	t	Mack	Jesus	1947-01-03	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e0000a2
-t	t	f	f	f	t	Nelson	Jacob	1944-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e0000ed
-t	t	f	t	f	f	Perez	Shannon	1947-01-03	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e000216
+t	t	\N	f	\N	t	Baldwin	Jeremy	1944-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e000270
+t	t	\N	f	\N	t	Doyle	Wanda	1939-01-02	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e0002c0
+t	t	\N	f	\N	t	Hayes	Philip	1944-02-02	M	http://cypress-demo.isi.edu/patients/560e0fe6637970313e0003cc
+t	t	\N	f	\N	t	Mack	Jesus	1947-01-03	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e0000a2
+t	t	\N	f	\N	t	Nelson	Jacob	1944-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e0000ed
+t	t	\N	t	\N	f	Perez	Shannon	1947-01-03	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e000216
 \.
 
 
@@ -4109,12 +4109,12 @@ t	t	f	t	f	f	Perez	Shannon	1947-01-03	F	http://cypress-demo.isi.edu/patients/560e
 --
 
 COPY measure_156_1 (ipp, denom, denex, numer, denexcep, "out", lastname, firstname, dob, gender, patient_url) FROM stdin;
-t	t	f	f	f	t	Baldwin	Jeremy	1944-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e000270
-t	t	f	f	f	t	Doyle	Wanda	1939-01-02	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e0002c0
-t	t	f	f	f	t	Hayes	Philip	1944-02-02	M	http://cypress-demo.isi.edu/patients/560e0fe6637970313e0003cc
-t	t	f	f	f	t	Mack	Jesus	1947-01-03	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e0000a2
-t	t	f	f	f	t	Nelson	Jacob	1944-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e0000ed
-t	t	f	f	f	t	Perez	Shannon	1947-01-03	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e000216
+t	t	\N	f	\N	t	Baldwin	Jeremy	1944-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e000270
+t	t	\N	f	\N	t	Doyle	Wanda	1939-01-02	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e0002c0
+t	t	\N	f	\N	t	Hayes	Philip	1944-02-02	M	http://cypress-demo.isi.edu/patients/560e0fe6637970313e0003cc
+t	t	\N	f	\N	t	Mack	Jesus	1947-01-03	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e0000a2
+t	t	\N	f	\N	t	Nelson	Jacob	1944-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e0000ed
+t	t	\N	f	\N	t	Perez	Shannon	1947-01-03	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e000216
 \.
 
 
@@ -4123,9 +4123,9 @@ t	t	f	f	f	t	Perez	Shannon	1947-01-03	F	http://cypress-demo.isi.edu/patients/560e
 --
 
 COPY measure_157_0 (ipp, denom, denex, numer, denexcep, "out", lastname, firstname, dob, gender, patient_url) FROM stdin;
-t	t	f	t	f	f	Lee	John	1989-08-01	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e000173
-t	t	f	f	f	t	Singleton	Jimmy	1989-08-01	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e00004c
-t	t	f	f	f	t	Stephens	Miguel	1989-08-04	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e00036c
+t	t	\N	t	\N	f	Lee	John	1989-08-01	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e000173
+t	t	\N	f	\N	t	Singleton	Jimmy	1989-08-01	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e00004c
+t	t	\N	f	\N	t	Stephens	Miguel	1989-08-04	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e00036c
 \.
 
 
@@ -4155,9 +4155,9 @@ t	t	f	f	f	t	Ramirez	Eugene	1992-02-01	M	http://cypress-demo.isi.edu/patients/560
 --
 
 COPY measure_160_0 (ipp, denom, denex, numer, denexcep, "out", lastname, firstname, dob, gender, patient_url) FROM stdin;
-t	t	f	t	f	f	Cummings	William	1992-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e000120
-t	t	f	t	f	f	Goodman	Philip	1992-01-07	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e000308
-t	t	f	f	f	t	Singleton	Clinton	1972-01-01	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e000016
+t	t	f	t	\N	f	Cummings	William	1992-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e000120
+t	t	f	t	\N	f	Goodman	Philip	1992-01-07	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e000308
+t	t	f	f	\N	t	Singleton	Clinton	1972-01-01	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e000016
 \.
 
 
@@ -4166,8 +4166,8 @@ t	t	f	f	f	t	Singleton	Clinton	1972-01-01	M	http://cypress-demo.isi.edu/patients/
 --
 
 COPY measure_160_1 (ipp, denom, denex, numer, denexcep, "out", lastname, firstname, dob, gender, patient_url) FROM stdin;
-t	t	f	f	f	t	Hampton	Johnnie	1974-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e0002f2
-t	t	f	f	f	t	Ramirez	Eugene	1992-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e0002a5
+t	t	f	f	\N	t	Hampton	Johnnie	1974-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e0002f2
+t	t	f	f	\N	t	Ramirez	Eugene	1992-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e0002a5
 \.
 
 
@@ -4176,7 +4176,7 @@ t	t	f	f	f	t	Ramirez	Eugene	1992-02-01	M	http://cypress-demo.isi.edu/patients/560
 --
 
 COPY measure_160_2 (ipp, denom, denex, numer, denexcep, "out", lastname, firstname, dob, gender, patient_url) FROM stdin;
-t	t	f	f	f	t	Hampton	Johnnie	1974-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e0002f2
+t	t	f	f	\N	t	Hampton	Johnnie	1974-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e0002f2
 \.
 
 
@@ -4241,8 +4241,8 @@ t	t	f	f	f	t	Hill	Ana	1969-02-01	F	http://cypress-demo.isi.edu/patients/560e0fe56
 --
 
 COPY measure_167_0 (ipp, denom, denex, numer, denexcep, "out", lastname, firstname, dob, gender, patient_url) FROM stdin;
-t	t	f	t	f	f	Mullins	Howard	1943-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e0001b9
-t	t	f	f	f	t	Zimmerman	Glen	1943-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e000080
+t	t	\N	t	f	f	Mullins	Howard	1943-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e0001b9
+t	t	\N	f	f	t	Zimmerman	Glen	1943-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e000080
 \.
 
 
@@ -4633,32 +4633,32 @@ t	t	f	t	f	f	Perez	Shannon	1947-01-03	F	http://cypress-demo.isi.edu/patients/560e
 --
 
 COPY measure_68_0 (ipp, denom, denex, numer, denexcep, "out", lastname, firstname, dob, gender, patient_url) FROM stdin;
-t	t	f	f	f	t	Allen	Georgia	1964-09-01	F	http://cypress-demo.isi.edu/patients/560e0fe4637970313e000148
-t	t	f	f	f	t	Baldwin	Jeremy	1944-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e000270
-t	t	f	f	f	t	Campbell	Darlene	1984-02-01	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e00038c
-t	t	f	f	f	t	Crawford	Velma	1969-02-01	F	http://cypress-demo.isi.edu/patients/560e0fe4637970313e00008e
-t	t	f	f	f	t	Cummings	William	1992-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e000120
-t	t	f	f	f	t	Doyle	Wanda	1939-01-02	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e0002c0
-t	t	f	f	f	t	Goodman	Philip	1992-01-07	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e000308
-t	t	f	f	f	t	Griffith	Katherine	1964-09-01	F	http://cypress-demo.isi.edu/patients/560e0fe4637970313e00002c
-t	t	f	f	t	t	Hampton	Johnnie	1974-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e0002f2
-t	t	f	f	f	t	Harrington	Pamela	1990-12-01	F	http://cypress-demo.isi.edu/patients/560e0fe4637970313e000107
-t	t	f	f	f	t	Hayes	Philip	1944-02-02	M	http://cypress-demo.isi.edu/patients/560e0fe6637970313e0003cc
-t	t	f	t	f	t	Hill	Ana	1969-02-01	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e0001e5
-t	t	f	f	f	t	Lee	John	1989-08-01	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e000173
-t	t	f	f	f	t	Mack	Jesus	1947-01-03	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e0000a2
-t	t	f	f	f	t	Massey	Jacqueline	1984-02-01	F	http://cypress-demo.isi.edu/patients/560e0fe4637970313e000063
-t	t	f	f	f	t	Mccarthy	Catherine	1990-11-28	F	http://cypress-demo.isi.edu/patients/560e0fe6637970313e0003de
-t	t	f	f	f	t	Mullins	Howard	1943-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e0001b9
-t	t	f	f	f	t	Nelson	Jacob	1944-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e0000ed
-t	t	f	f	f	t	Perez	Shannon	1947-01-03	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e000216
-t	t	f	f	f	t	Potter	Gail	1984-02-01	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e00018b
-t	t	f	f	f	t	Ramirez	Eugene	1992-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e0002a5
-t	t	f	f	f	t	Richardson	Juanita	1990-12-01	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e000296
-t	t	f	f	f	t	Singleton	Jimmy	1989-08-01	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e00004c
-t	t	f	f	f	t	Singleton	Clinton	1972-01-01	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e000016
-t	t	f	f	f	t	Stephens	Miguel	1989-08-04	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e00036c
-t	t	f	f	f	t	Zimmerman	Glen	1943-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e000080
+t	t	\N	f	f	t	Allen	Georgia	1964-09-01	F	http://cypress-demo.isi.edu/patients/560e0fe4637970313e000148
+t	t	\N	f	f	t	Baldwin	Jeremy	1944-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e000270
+t	t	\N	f	f	t	Campbell	Darlene	1984-02-01	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e00038c
+t	t	\N	f	f	t	Crawford	Velma	1969-02-01	F	http://cypress-demo.isi.edu/patients/560e0fe4637970313e00008e
+t	t	\N	f	f	t	Cummings	William	1992-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e000120
+t	t	\N	f	f	t	Doyle	Wanda	1939-01-02	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e0002c0
+t	t	\N	f	f	t	Goodman	Philip	1992-01-07	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e000308
+t	t	\N	f	f	t	Griffith	Katherine	1964-09-01	F	http://cypress-demo.isi.edu/patients/560e0fe4637970313e00002c
+t	t	\N	f	t	t	Hampton	Johnnie	1974-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e0002f2
+t	t	\N	f	f	t	Harrington	Pamela	1990-12-01	F	http://cypress-demo.isi.edu/patients/560e0fe4637970313e000107
+t	t	\N	f	f	t	Hayes	Philip	1944-02-02	M	http://cypress-demo.isi.edu/patients/560e0fe6637970313e0003cc
+t	t	\N	t	f	t	Hill	Ana	1969-02-01	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e0001e5
+t	t	\N	f	f	t	Lee	John	1989-08-01	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e000173
+t	t	\N	f	f	t	Mack	Jesus	1947-01-03	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e0000a2
+t	t	\N	f	f	t	Massey	Jacqueline	1984-02-01	F	http://cypress-demo.isi.edu/patients/560e0fe4637970313e000063
+t	t	\N	f	f	t	Mccarthy	Catherine	1990-11-28	F	http://cypress-demo.isi.edu/patients/560e0fe6637970313e0003de
+t	t	\N	f	f	t	Mullins	Howard	1943-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e0001b9
+t	t	\N	f	f	t	Nelson	Jacob	1944-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e0000ed
+t	t	\N	f	f	t	Perez	Shannon	1947-01-03	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e000216
+t	t	\N	f	f	t	Potter	Gail	1984-02-01	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e00018b
+t	t	\N	f	f	t	Ramirez	Eugene	1992-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e0002a5
+t	t	\N	f	f	t	Richardson	Juanita	1990-12-01	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e000296
+t	t	\N	f	f	t	Singleton	Jimmy	1989-08-01	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e00004c
+t	t	\N	f	f	t	Singleton	Clinton	1972-01-01	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e000016
+t	t	\N	f	f	t	Stephens	Miguel	1989-08-04	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e00036c
+t	t	\N	f	f	t	Zimmerman	Glen	1943-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e000080
 \.
 
 
@@ -4667,24 +4667,24 @@ t	t	f	f	f	t	Zimmerman	Glen	1943-02-01	M	http://cypress-demo.isi.edu/patients/560
 --
 
 COPY measure_69_0 (ipp, denom, denex, numer, denexcep, "out", lastname, firstname, dob, gender, patient_url) FROM stdin;
-t	t	f	f	f	t	Allen	Georgia	1964-09-01	F	http://cypress-demo.isi.edu/patients/560e0fe4637970313e000148
-t	t	f	f	f	t	Campbell	Darlene	1984-02-01	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e00038c
-t	t	f	f	f	t	Crawford	Velma	1969-02-01	F	http://cypress-demo.isi.edu/patients/560e0fe4637970313e00008e
-t	t	f	f	f	t	Cummings	William	1992-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e000120
-t	t	f	f	f	t	Goodman	Philip	1992-01-07	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e000308
-t	t	f	f	f	t	Griffith	Katherine	1964-09-01	F	http://cypress-demo.isi.edu/patients/560e0fe4637970313e00002c
-t	t	f	f	f	t	Hampton	Johnnie	1974-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e0002f2
-t	t	f	f	f	t	Harrington	Pamela	1990-12-01	F	http://cypress-demo.isi.edu/patients/560e0fe4637970313e000107
-t	t	f	t	f	f	Hill	Ana	1969-02-01	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e0001e5
-t	t	f	f	f	t	Lee	John	1989-08-01	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e000173
-t	t	f	f	f	t	Massey	Jacqueline	1984-02-01	F	http://cypress-demo.isi.edu/patients/560e0fe4637970313e000063
-t	t	t	f	f	f	Mccarthy	Catherine	1990-11-28	F	http://cypress-demo.isi.edu/patients/560e0fe6637970313e0003de
-t	t	f	f	f	t	Potter	Gail	1984-02-01	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e00018b
-t	t	f	f	f	t	Ramirez	Eugene	1992-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e0002a5
-t	t	t	f	f	f	Richardson	Juanita	1990-12-01	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e000296
-t	t	f	f	f	t	Singleton	Clinton	1972-01-01	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e000016
-t	t	f	f	f	t	Singleton	Jimmy	1989-08-01	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e00004c
-t	t	f	f	f	t	Stephens	Miguel	1989-08-04	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e00036c
+t	t	f	f	\N	t	Allen	Georgia	1964-09-01	F	http://cypress-demo.isi.edu/patients/560e0fe4637970313e000148
+t	t	f	f	\N	t	Campbell	Darlene	1984-02-01	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e00038c
+t	t	f	f	\N	t	Crawford	Velma	1969-02-01	F	http://cypress-demo.isi.edu/patients/560e0fe4637970313e00008e
+t	t	f	f	\N	t	Cummings	William	1992-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e000120
+t	t	f	f	\N	t	Goodman	Philip	1992-01-07	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e000308
+t	t	f	f	\N	t	Griffith	Katherine	1964-09-01	F	http://cypress-demo.isi.edu/patients/560e0fe4637970313e00002c
+t	t	f	f	\N	t	Hampton	Johnnie	1974-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e0002f2
+t	t	f	f	\N	t	Harrington	Pamela	1990-12-01	F	http://cypress-demo.isi.edu/patients/560e0fe4637970313e000107
+t	t	f	t	\N	f	Hill	Ana	1969-02-01	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e0001e5
+t	t	f	f	\N	t	Lee	John	1989-08-01	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e000173
+t	t	f	f	\N	t	Massey	Jacqueline	1984-02-01	F	http://cypress-demo.isi.edu/patients/560e0fe4637970313e000063
+t	t	t	f	\N	f	Mccarthy	Catherine	1990-11-28	F	http://cypress-demo.isi.edu/patients/560e0fe6637970313e0003de
+t	t	f	f	\N	t	Potter	Gail	1984-02-01	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e00018b
+t	t	f	f	\N	t	Ramirez	Eugene	1992-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e0002a5
+t	t	t	f	\N	f	Richardson	Juanita	1990-12-01	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e000296
+t	t	f	f	\N	t	Singleton	Clinton	1972-01-01	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e000016
+t	t	f	f	\N	t	Singleton	Jimmy	1989-08-01	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e00004c
+t	t	f	f	\N	t	Stephens	Miguel	1989-08-04	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e00036c
 \.
 
 
@@ -4693,12 +4693,12 @@ t	t	f	f	f	t	Stephens	Miguel	1989-08-04	M	http://cypress-demo.isi.edu/patients/56
 --
 
 COPY measure_69_1 (ipp, denom, denex, numer, denexcep, "out", lastname, firstname, dob, gender, patient_url) FROM stdin;
-t	t	f	f	f	t	Baldwin	Jeremy	1944-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e000270
-t	t	f	f	f	t	Doyle	Wanda	1939-01-02	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e0002c0
-t	t	f	f	f	t	Hayes	Philip	1944-02-02	M	http://cypress-demo.isi.edu/patients/560e0fe6637970313e0003cc
-t	t	f	f	f	t	Mack	Jesus	1947-01-03	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e0000a2
-t	t	f	f	f	t	Nelson	Jacob	1944-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e0000ed
-t	t	f	f	f	t	Perez	Shannon	1947-01-03	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e000216
+t	t	f	f	\N	t	Baldwin	Jeremy	1944-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e000270
+t	t	f	f	\N	t	Doyle	Wanda	1939-01-02	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e0002c0
+t	t	f	f	\N	t	Hayes	Philip	1944-02-02	M	http://cypress-demo.isi.edu/patients/560e0fe6637970313e0003cc
+t	t	f	f	\N	t	Mack	Jesus	1947-01-03	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e0000a2
+t	t	f	f	\N	t	Nelson	Jacob	1944-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e0000ed
+t	t	f	f	\N	t	Perez	Shannon	1947-01-03	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e000216
 \.
 
 
@@ -4707,21 +4707,21 @@ t	t	f	f	f	t	Perez	Shannon	1947-01-03	F	http://cypress-demo.isi.edu/patients/560e
 --
 
 COPY measure_74_0 (ipp, denom, denex, numer, denexcep, "out", lastname, firstname, dob, gender, patient_url) FROM stdin;
-t	t	f	f	f	t	Arnold	Terri	2004-02-05	F	http://cypress-demo.isi.edu/patients/560e0fe6637970313e000399
-t	t	f	f	f	t	Barnes	Janet	2003-02-01	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e0002de
-t	t	f	f	f	t	Buchanan	Lori	1999-10-31	F	http://cypress-demo.isi.edu/patients/560e0fe4637970313e0000fa
-t	t	f	f	f	t	Byrd	Elsie	2013-11-01	F	http://cypress-demo.isi.edu/patients/560e0fe4637970313e00001c
-t	t	f	f	f	t	Collins	Andy	2003-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e000136
-t	t	f	f	f	t	Hart	Marcus	2012-06-18	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e00030e
-t	t	f	f	f	t	Henderson	Peggy	2004-02-01	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e000198
-t	t	f	f	f	t	Jordan	Sherri	1997-02-01	F	http://cypress-demo.isi.edu/patients/560e0fe4637970313e0000b8
-t	t	f	t	f	f	Lee	Guy	2003-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e000058
-t	t	f	f	f	t	Mcdaniel	Theodore	2012-06-18	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e00034c
-t	t	f	f	f	t	Mcgee	Kristen	2013-11-03	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e000374
-t	t	f	f	f	t	Robinson	Renee	2004-01-04	F	http://cypress-demo.isi.edu/patients/560e0fe4637970313e00006f
-t	t	f	f	f	t	Ruiz	Rose	1999-10-31	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e000284
-t	t	f	f	f	t	Scott	Shirley	2013-11-01	F	http://cypress-demo.isi.edu/patients/560e0fe4637970313e000128
-t	t	f	f	f	t	Smith	Esther	1997-02-01	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e00023d
+t	t	\N	f	\N	t	Arnold	Terri	2004-02-05	F	http://cypress-demo.isi.edu/patients/560e0fe6637970313e000399
+t	t	\N	f	\N	t	Barnes	Janet	2003-02-01	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e0002de
+t	t	\N	f	\N	t	Buchanan	Lori	1999-10-31	F	http://cypress-demo.isi.edu/patients/560e0fe4637970313e0000fa
+t	t	\N	f	\N	t	Byrd	Elsie	2013-11-01	F	http://cypress-demo.isi.edu/patients/560e0fe4637970313e00001c
+t	t	\N	f	\N	t	Collins	Andy	2003-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e000136
+t	t	\N	f	\N	t	Hart	Marcus	2012-06-18	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e00030e
+t	t	\N	f	\N	t	Henderson	Peggy	2004-02-01	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e000198
+t	t	\N	f	\N	t	Jordan	Sherri	1997-02-01	F	http://cypress-demo.isi.edu/patients/560e0fe4637970313e0000b8
+t	t	\N	t	\N	f	Lee	Guy	2003-02-01	M	http://cypress-demo.isi.edu/patients/560e0fe4637970313e000058
+t	t	\N	f	\N	t	Mcdaniel	Theodore	2012-06-18	M	http://cypress-demo.isi.edu/patients/560e0fe5637970313e00034c
+t	t	\N	f	\N	t	Mcgee	Kristen	2013-11-03	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e000374
+t	t	\N	f	\N	t	Robinson	Renee	2004-01-04	F	http://cypress-demo.isi.edu/patients/560e0fe4637970313e00006f
+t	t	\N	f	\N	t	Ruiz	Rose	1999-10-31	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e000284
+t	t	\N	f	\N	t	Scott	Shirley	2013-11-01	F	http://cypress-demo.isi.edu/patients/560e0fe4637970313e000128
+t	t	\N	f	\N	t	Smith	Esther	1997-02-01	F	http://cypress-demo.isi.edu/patients/560e0fe5637970313e00023d
 \.
 
 

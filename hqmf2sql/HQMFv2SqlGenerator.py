@@ -1049,6 +1049,7 @@ class SQLGenerator:
                 denexcep = and_(denom, not_(denex), not_(numer), denexcep)
             else:
                 denexcep = and_(denom, not_(numer), denexcep)
+            cdict[sname] = denexcep
 
 class ExtendedPopulationCriterion(PopulationCriterion):
     def __init__(self, pop):
